@@ -5,22 +5,18 @@ public class PlayerStats : MonoBehaviour
     [Header("Health")]
     public float maxHP;
     public float currentHP;
-
     [Header("Movement")]
     public float moveSpeed;
-
     [Header("Attack")]
     public float attack;
-    public float baseAttackSpeed;   // base attacks per second
-    public float attackSpeed = 1f;        // attack speed multiplier
+    public float baseAttackSpeed;   // base attack per second
+    public float attackSpeed = 1f;  // attack speed multiplier
     public float baseAttackRange;
     public float attackRange = 1f;
-    public float baseAttackLength; // animation original length
-
+    public float baseAttackLength;  // animation original length
     [Header("Knockback")]
     public float knockback;
     public float knockbackResist;   // 0 = no resist, 1 = full resist
-
     private bool isDead = false;
 
     void Start()
@@ -31,12 +27,9 @@ public class PlayerStats : MonoBehaviour
     public void TakeDamage(float damage, Vector3 knockbackDir, float knockbackForce)
     {
         if (isDead) return;
-
         currentHP -= damage;
-
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("GetHit");
-
         float actualKnockback = knockbackForce * (1f - Mathf.Clamp01(knockbackResist));
         if (actualKnockback > 0f)
         {
@@ -46,7 +39,6 @@ public class PlayerStats : MonoBehaviour
                 rb.AddForce(knockbackDir.normalized * actualKnockback, ForceMode.Impulse);
             }
         }
-
         if (currentHP <= 0)
         {
             Die();
@@ -61,21 +53,33 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         isDead = true;
-
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("Die");
-
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null)
         {
             controller.enabled = false;
         }
-
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
         }
+    }
+
+    void OnValidate()
+    {
+        if (Application.isPlaying)
+        {
+            WeaponSelector ws = GetComponent<WeaponSelector>();
+            if (ws != null) StartCoroutine(DelayedApply(ws));
+        }
+    }
+
+    private System.Collections.IEnumerator DelayedApply(WeaponSelector ws)
+    {
+        yield return null;
+        ws.ApplyWeapon();
     }
 }
