@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour
     private bool canAttack = true;
     private PlayerStats stats;
 
+    //Visual Effects
+    public ParticleSystem dust;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -35,10 +38,17 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
             transform.Translate(movement, Space.World);
             animator.SetBool("IsRunning", true);
+
+            if (dust != null && isGrounded) 
+            {
+                dust.Play();
+            }
         }
         else
         {
             animator.SetBool("IsRunning", false);
+
+            dust.Stop();
         }
     }
 
