@@ -74,7 +74,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackRange = 1.5f;
                 stats.baseAttackSpeed = 0.8f;
                 stats.baseAttackLength = 1.6f;
-                stats.knockback = 8f;
+                stats.knockback = 30f;
                 stats.knockbackResist = 0.2f;
                 break;
 
@@ -91,7 +91,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackRange = 1f;
                 stats.baseAttackSpeed = 1.2f;
                 stats.baseAttackLength = 1.4f;
-                stats.knockback = 4f;
+                stats.knockback = 16f;
                 stats.knockbackResist = 0.3f;
                 break;
 
@@ -108,7 +108,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackRange = 2f;
                 stats.baseAttackSpeed = 0.9f;
                 stats.baseAttackLength = 1.4f;
-                stats.knockback = 6f;
+                stats.knockback = 24f;
                 stats.knockbackResist = 0.1f;
                 break;
 
@@ -125,7 +125,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackRange = 0.6f;
                 stats.baseAttackSpeed = 1.6f;
                 stats.baseAttackLength = 1.3f;
-                stats.knockback = 3f;
+                stats.knockback = 12f;
                 stats.knockbackResist = 0.4f;
                 break;
         }

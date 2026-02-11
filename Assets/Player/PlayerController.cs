@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour
 {
     public Rigidbody rb;
+    public float jumpForce = 10f;
     private Vector2 move;
     private bool isGrounded;
     private Animator animator;
@@ -96,13 +97,15 @@ public class PlayerController : MonoBehaviour
     {
         if (context.performed && isGrounded)
         {
-            rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
+            animator.SetBool("IsJumping", true);
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
         isGrounded = true;
+        animator.SetBool("IsJumping", false);
     }
 }
