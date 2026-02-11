@@ -99,4 +99,4 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 #Ignore Terrain imported files
-/Assets/BOKI/LowPolyNature/Terrain/
+/Assets/BOKI/LowPolyNature/Terrain/data/
