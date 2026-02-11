@@ -3,22 +3,22 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [Header("Health")]
-    public float maxHP = 100f;
+    public float maxHP;
     public float currentHP;
 
     [Header("Movement")]
-    public float moveSpeed = 5f;
+    public float moveSpeed;
 
     [Header("Attack")]
-    public float attack = 10f;
-    public float baseAttackSpeed = 1f;   // base attacks per second
-    public float attackSpeed = 1f;        // attack speed multiplier
-    public float attackRange = 2f;
-    public float baseAttackLength = 1.2f; // animation original length
+    public float attack;
+    public float baseAttackSpeed;   // base attacks per second
+    public float attackSpeed;        // attack speed multiplier
+    public float attackRange;
+    public float baseAttackLength; // animation original length
 
     [Header("Knockback")]
-    public float knockback = 5f;
-    public float knockbackResist = 0f;   // 0 = no resist, 1 = full resist
+    public float knockback;
+    public float knockbackResist;   // 0 = no resist, 1 = full resist
 
     private bool isDead = false;
 

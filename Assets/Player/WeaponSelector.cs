@@ -31,8 +31,14 @@ public class WeaponSelector : MonoBehaviour
     {
         if (Application.isPlaying)
         {
-            ApplyWeapon();
+            StartCoroutine(DelayedApplyWeapon());
         }
+    }
+
+    private System.Collections.IEnumerator DelayedApplyWeapon()
+    {
+        yield return null;
+        ApplyWeapon();
     }
 
     public void ApplyWeapon()
@@ -51,32 +57,44 @@ public class WeaponSelector : MonoBehaviour
             case WeaponType.Greatsword:
                 animator.runtimeAnimatorController = greatswordController;
                 if (greatswordModel != null) greatswordModel.SetActive(true);
+                stats.maxHP = 120f;
+                stats.currentHP = stats.maxHP;
+                stats.moveSpeed = 4f;
                 stats.attack = 15f;
-                stats.attackRange = 2.5f;
+                stats.attackRange = 1.5f;
                 stats.baseAttackSpeed = 0.8f;
                 stats.baseAttackLength = 1.6f;
                 stats.knockback = 8f;
+                stats.knockbackResist = 0.2f;
                 break;
 
             case WeaponType.SwordAndShield:
                 animator.runtimeAnimatorController = swordAndShieldController;
                 if (swordModel != null) swordModel.SetActive(true);
                 if (shieldModel != null) shieldModel.SetActive(true);
+                stats.maxHP = 100f;
+                stats.currentHP = stats.maxHP;
+                stats.moveSpeed = 6f;
                 stats.attack = 10f;
-                stats.attackRange = 1.8f;
+                stats.attackRange = 1f;
                 stats.baseAttackSpeed = 1.2f;
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 4f;
+                stats.knockbackResist = 0.3f;
                 break;
 
             case WeaponType.Polearm:
                 animator.runtimeAnimatorController = polearmController;
                 if (polearmModel != null) polearmModel.SetActive(true);
+                stats.maxHP = 100f;
+                stats.currentHP = stats.maxHP;
+                stats.moveSpeed = 5f;
                 stats.attack = 12f;
-                stats.attackRange = 3f;
+                stats.attackRange = 2f;
                 stats.baseAttackSpeed = 0.9f;
-                stats.baseAttackLength = 1.3f;
+                stats.baseAttackLength = 1.4f;
                 stats.knockback = 6f;
+                stats.knockbackResist = 0.1f;
                 break;
         }
     }
