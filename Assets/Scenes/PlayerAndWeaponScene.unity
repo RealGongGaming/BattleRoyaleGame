@@ -136,10 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73da398a53c85dd489b732d8b2a4e10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 8
-  jumpForce: 5
   rb: {fileID: 84562758}
-  attackCooldown: 1.6
 --- !u!114 &84562757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +265,28 @@ CapsuleCollider:
   m_Height: 1.7039593
   m_Direction: 1
   m_Center: {x: 0, y: 0.9088935, z: 0.030990124}
+--- !u!114 &84562760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84562753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d99f66ccfd1ed4ab011c8d559d1879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHP: 100
+  currentHP: 0
+  moveSpeed: 5
+  attack: 10
+  baseAttackSpeed: 1.2
+  attackSpeed: 1
+  attackRange: 2
+  baseAttackLength: 1.6
+  knockback: 5
+  knockbackResist: 0
 --- !u!1 &285504843
 GameObject:
   m_ObjectHideFlags: 0
@@ -564,6 +583,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7991373657290914776, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1755389053}
+    - targetCorrespondingSourceObject: {fileID: 7991373657290914776, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1755389057}
   m_SourcePrefab: {fileID: 100100000, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
 --- !u!1 &980390520
 GameObject:
@@ -993,6 +1015,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7991373657290914776, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
       insertIndex: -1
       addedObject: {fileID: 84562759}
+    - targetCorrespondingSourceObject: {fileID: 7991373657290914776, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 84562760}
   m_SourcePrefab: {fileID: 100100000, guid: 2c23c941dbdc1534eb6c7302246d6b29, type: 3}
 --- !u!1 &1755389052 stripped
 GameObject:
@@ -1061,10 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73da398a53c85dd489b732d8b2a4e10e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  speed: 8
-  jumpForce: 5
   rb: {fileID: 1755389054}
-  attackCooldown: 1.6
 --- !u!114 &1755389056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,6 +1165,28 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1755389057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755389052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73d99f66ccfd1ed4ab011c8d559d1879, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHP: 100
+  currentHP: 0
+  moveSpeed: 5
+  attack: 10
+  baseAttackSpeed: 1.2
+  attackSpeed: 1
+  attackRange: 2
+  baseAttackLength: 1.6
+  knockback: 5
+  knockbackResist: 0
 --- !u!1 &2007341942
 GameObject:
   m_ObjectHideFlags: 0
