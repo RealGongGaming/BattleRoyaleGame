@@ -11,16 +11,20 @@ public class WeaponSelector : MonoBehaviour
 {
     public WeaponType currentWeapon;
 
+    [Header("Body Models")]
+    public GameObject heroGreatswordBody;
+    public GameObject heroSwordAndShieldBody;
+    public GameObject heroPolearmBody;
+
     [Header("Animator Controllers")]
     public RuntimeAnimatorController greatswordController;
     public RuntimeAnimatorController swordAndShieldController;
     public RuntimeAnimatorController polearmController;
 
-    [Header("Weapon Models (drag from the hand bone children)")]
-    public GameObject greatswordModel;
-    public GameObject swordModel;
-    public GameObject shieldModel;
-    public GameObject polearmModel;
+    [Header("Animation Avatars")]
+    public Avatar greatswordAvatar;
+    public Avatar swordAndShieldAvatar;
+    public Avatar polearmAvatar;
 
     void Start()
     {
@@ -46,17 +50,18 @@ public class WeaponSelector : MonoBehaviour
         Animator animator = GetComponent<Animator>();
         PlayerStats stats = GetComponent<PlayerStats>();
 
-        // Hide all weapons first
-        if (greatswordModel != null) greatswordModel.SetActive(false);
-        if (swordModel != null) swordModel.SetActive(false);
-        if (shieldModel != null) shieldModel.SetActive(false);
-        if (polearmModel != null) polearmModel.SetActive(false);
+        if (heroGreatswordBody != null) heroGreatswordBody.SetActive(false);
+        if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(false);
+        if (heroPolearmBody != null) heroPolearmBody.SetActive(false);
 
         switch (currentWeapon)
         {
             case WeaponType.Greatsword:
+                if (heroGreatswordBody != null) heroGreatswordBody.SetActive(true);
                 animator.runtimeAnimatorController = greatswordController;
-                if (greatswordModel != null) greatswordModel.SetActive(true);
+                animator.avatar = greatswordAvatar;
+                animator.Rebind();
+                animator.Update(0f);
                 stats.maxHP = 120f;
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 4f;
@@ -69,9 +74,11 @@ public class WeaponSelector : MonoBehaviour
                 break;
 
             case WeaponType.SwordAndShield:
+                if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(true);
                 animator.runtimeAnimatorController = swordAndShieldController;
-                if (swordModel != null) swordModel.SetActive(true);
-                if (shieldModel != null) shieldModel.SetActive(true);
+                animator.avatar = swordAndShieldAvatar;
+                animator.Rebind();
+                animator.Update(0f);
                 stats.maxHP = 100f;
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 6f;
@@ -84,8 +91,11 @@ public class WeaponSelector : MonoBehaviour
                 break;
 
             case WeaponType.Polearm:
+                if (heroPolearmBody != null) heroPolearmBody.SetActive(true);
                 animator.runtimeAnimatorController = polearmController;
-                if (polearmModel != null) polearmModel.SetActive(true);
+                animator.avatar = polearmAvatar;
+                animator.Rebind();
+                animator.Update(0f);
                 stats.maxHP = 100f;
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 5f;
