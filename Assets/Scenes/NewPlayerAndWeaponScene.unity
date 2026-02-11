@@ -11745,19 +11745,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSelector
   currentWeapon: 0
-  heroGreatswordBody: {fileID: 716925383}
+  heroHammerBody: {fileID: 716925383}
   heroSwordAndShieldBody: {fileID: 1788529185}
   heroPolearmBody: {fileID: 409684220}
   DualswordBody: {fileID: 772136131}
-  greatswordController: {fileID: 9100000, guid: 08bf4b85aff13574e9824c881c880446, type: 2}
+  hammerController: {fileID: 9100000, guid: 08bf4b85aff13574e9824c881c880446, type: 2}
   swordAndShieldController: {fileID: 9100000, guid: 633fcd5e32131e948a31a6b83c06ad1d, type: 2}
   polearmController: {fileID: 9100000, guid: 8c9166bb01bff9646987627670a7675f, type: 2}
   DualswordController: {fileID: 9100000, guid: d8eb9a71729f9254cb0d02133197cae4, type: 2}
-  greatswordAvatar: {fileID: 9000000, guid: f81a4eda03ca4704c94cb4a1ec3e507b, type: 3}
+  hammerAvatar: {fileID: 9000000, guid: f81a4eda03ca4704c94cb4a1ec3e507b, type: 3}
   swordAndShieldAvatar: {fileID: 9000000, guid: 84e7c2a21aecc2842877b031d1ce3557, type: 3}
   polearmAvatar: {fileID: 9000000, guid: 7a318391d7273754c8106514a8f88bb8, type: 3}
   DualswordAvatar: {fileID: 9000000, guid: 761f8dfa87de85a468c7bb470366d0f6, type: 3}
-  greatswordModel: {fileID: 1025124511}
+  hammerModel: {fileID: 1025124511}
   swordModel: {fileID: 1581009612}
   shieldModel: {fileID: 1241003676}
   polearmModel: {fileID: 578205706}
@@ -11777,6 +11777,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHP: 0
   currentHP: 0
+  baseMoveSpeed: 0
   moveSpeed: 0
   attack: 0
   baseAttackSpeed: 0
@@ -22625,19 +22626,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponSelector
   currentWeapon: 0
-  heroGreatswordBody: {fileID: 458442319}
+  heroHammerBody: {fileID: 458442319}
   heroSwordAndShieldBody: {fileID: 87069177}
   heroPolearmBody: {fileID: 362526093}
   DualswordBody: {fileID: 1154731121}
-  greatswordController: {fileID: 9100000, guid: 08bf4b85aff13574e9824c881c880446, type: 2}
+  hammerController: {fileID: 9100000, guid: 08bf4b85aff13574e9824c881c880446, type: 2}
   swordAndShieldController: {fileID: 9100000, guid: 633fcd5e32131e948a31a6b83c06ad1d, type: 2}
   polearmController: {fileID: 9100000, guid: 8c9166bb01bff9646987627670a7675f, type: 2}
   DualswordController: {fileID: 9100000, guid: d8eb9a71729f9254cb0d02133197cae4, type: 2}
-  greatswordAvatar: {fileID: 9000000, guid: f81a4eda03ca4704c94cb4a1ec3e507b, type: 3}
+  hammerAvatar: {fileID: 9000000, guid: f81a4eda03ca4704c94cb4a1ec3e507b, type: 3}
   swordAndShieldAvatar: {fileID: 9000000, guid: 84e7c2a21aecc2842877b031d1ce3557, type: 3}
   polearmAvatar: {fileID: 9000000, guid: 7a318391d7273754c8106514a8f88bb8, type: 3}
   DualswordAvatar: {fileID: 9000000, guid: 761f8dfa87de85a468c7bb470366d0f6, type: 3}
-  greatswordModel: {fileID: 1478703254}
+  hammerModel: {fileID: 1478703254}
   swordModel: {fileID: 467835808}
   shieldModel: {fileID: 145859026}
   polearmModel: {fileID: 2128565912}
@@ -22657,6 +22658,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHP: 0
   currentHP: 0
+  baseMoveSpeed: 0
   moveSpeed: 0
   attack: 0
   baseAttackSpeed: 0

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public enum WeaponType
 {
-    Greatsword,
+    Hammer,
     SwordAndShield,
     Polearm,
     Dualsword
@@ -13,25 +13,25 @@ public class WeaponSelector : MonoBehaviour
     public WeaponType currentWeapon;
 
     [Header("Body Models")]
-    public GameObject heroGreatswordBody;
+    public GameObject heroHammerBody;
     public GameObject heroSwordAndShieldBody;
     public GameObject heroPolearmBody;
     public GameObject DualswordBody;
 
     [Header("Animator Controllers")]
-    public RuntimeAnimatorController greatswordController;
+    public RuntimeAnimatorController hammerController;
     public RuntimeAnimatorController swordAndShieldController;
     public RuntimeAnimatorController polearmController;
     public RuntimeAnimatorController DualswordController;
 
     [Header("Animation Avatars")]
-    public Avatar greatswordAvatar;
+    public Avatar hammerAvatar;
     public Avatar swordAndShieldAvatar;
     public Avatar polearmAvatar;
     public Avatar DualswordAvatar;
 
     [Header("Weapon Models")]
-    public GameObject greatswordModel;
+    public GameObject hammerModel;
     public GameObject swordModel;
     public GameObject shieldModel;
     public GameObject polearmModel;
@@ -39,7 +39,7 @@ public class WeaponSelector : MonoBehaviour
     public GameObject dualsword2Model;
 
     private bool origScalesSaved = false;
-    private Vector3 greatswordOrigScale;
+    private Vector3 hammerOrigScale;
     private Vector3 swordOrigScale;
     private Vector3 shieldOrigScale;
     private Vector3 polearmOrigScale;
@@ -49,7 +49,7 @@ public class WeaponSelector : MonoBehaviour
     private void SaveOriginalScales()
     {
         if (origScalesSaved) return;
-        if (greatswordModel != null) greatswordOrigScale = greatswordModel.transform.localScale;
+        if (hammerModel != null) hammerOrigScale = hammerModel.transform.localScale;
         if (swordModel != null) swordOrigScale = swordModel.transform.localScale;
         if (shieldModel != null) shieldOrigScale = shieldModel.transform.localScale;
         if (polearmModel != null) polearmOrigScale = polearmModel.transform.localScale;
@@ -90,12 +90,12 @@ public class WeaponSelector : MonoBehaviour
         Animator animator = GetComponent<Animator>();
         PlayerStats stats = GetComponent<PlayerStats>();
 
-        if (heroGreatswordBody != null) heroGreatswordBody.SetActive(false);
+        if (heroHammerBody != null) heroHammerBody.SetActive(false);
         if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(false);
         if (heroPolearmBody != null) heroPolearmBody.SetActive(false);
         if (DualswordBody != null) DualswordBody.SetActive(false);
 
-        if (greatswordModel != null) greatswordModel.SetActive(false);
+        if (hammerModel != null) hammerModel.SetActive(false);
         if (swordModel != null) swordModel.SetActive(false);
         if (shieldModel != null) shieldModel.SetActive(false);
         if (polearmModel != null) polearmModel.SetActive(false);
@@ -104,10 +104,10 @@ public class WeaponSelector : MonoBehaviour
 
         switch (currentWeapon)
         {
-            case WeaponType.Greatsword:
-                if (heroGreatswordBody != null) heroGreatswordBody.SetActive(true);
-                animator.runtimeAnimatorController = greatswordController;
-                animator.avatar = greatswordAvatar;
+            case WeaponType.Hammer:
+                if (heroHammerBody != null) heroHammerBody.SetActive(true);
+                animator.runtimeAnimatorController = hammerController;
+                animator.avatar = hammerAvatar;
                 animator.Rebind();
                 animator.Update(0f);
                 stats.maxHP = 120f;
@@ -119,7 +119,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.6f;
                 stats.knockback = 30f;
                 stats.knockbackResist = 0.2f;
-                ScaleWeapon(greatswordModel, greatswordOrigScale, stats.attackRange);
+                ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
                 break;
 
             case WeaponType.SwordAndShield:
