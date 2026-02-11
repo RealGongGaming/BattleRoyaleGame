@@ -32,8 +32,11 @@ public class PlayerController : MonoBehaviour
     {
         if (move.sqrMagnitude > 0.1f)
         {
-            Vector3 movement = new Vector3(move.x, 0, move.y) * stats.moveSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
+            Vector3 movement = new Vector3(move.x, 0, move.y) * stats.baseMoveSpeed * stats.moveSpeed * Time.deltaTime;
+            if (movement.sqrMagnitude > 0.0001f)
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
+            }
             transform.Translate(movement, Space.World);
             animator.SetBool("IsRunning", true);
         }

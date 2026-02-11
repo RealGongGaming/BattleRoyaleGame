@@ -112,7 +112,7 @@ public class WeaponSelector : MonoBehaviour
                 animator.Update(0f);
                 stats.maxHP = 120f;
                 stats.currentHP = stats.maxHP;
-                stats.moveSpeed = 4f;
+                stats.baseMoveSpeed = 4f;
                 stats.attack = 15f;
                 stats.baseAttackRange = 1.5f;
                 stats.baseAttackSpeed = 0.8f;
@@ -130,7 +130,7 @@ public class WeaponSelector : MonoBehaviour
                 animator.Update(0f);
                 stats.maxHP = 100f;
                 stats.currentHP = stats.maxHP;
-                stats.moveSpeed = 6f;
+                stats.baseMoveSpeed = 6f;
                 stats.attack = 10f;
                 stats.baseAttackRange = 1f;
                 stats.baseAttackSpeed = 1.2f;
@@ -149,7 +149,7 @@ public class WeaponSelector : MonoBehaviour
                 animator.Update(0f);
                 stats.maxHP = 100f;
                 stats.currentHP = stats.maxHP;
-                stats.moveSpeed = 5f;
+                stats.baseMoveSpeed = 5f;
                 stats.attack = 12f;
                 stats.baseAttackRange = 2f;
                 stats.baseAttackSpeed = 0.9f;
@@ -167,7 +167,7 @@ public class WeaponSelector : MonoBehaviour
                 animator.Update(0f);
                 stats.maxHP = 90f;
                 stats.currentHP = stats.maxHP;
-                stats.moveSpeed = 7f;
+                stats.baseMoveSpeed = 7f;
                 stats.attack = 8f;
                 stats.baseAttackRange = 0.6f;
                 stats.baseAttackSpeed = 1.6f;

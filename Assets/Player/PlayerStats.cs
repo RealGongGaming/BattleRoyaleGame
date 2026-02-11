@@ -6,13 +6,14 @@ public class PlayerStats : MonoBehaviour
     public float maxHP;
     public float currentHP;
     [Header("Movement")]
-    public float moveSpeed;
+    public float baseMoveSpeed; // base movement speed
+    public float moveSpeed;     // movement speed multiplier
     [Header("Attack")]
     public float attack;
     public float baseAttackSpeed;   // base attack per second
-    public float attackSpeed = 1f;  // attack speed multiplier
+    public float attackSpeed;  // attack speed multiplier
     public float baseAttackRange;
-    public float attackRange = 1f;
+    public float attackRange;
     public float baseAttackLength;  // animation original length
     [Header("Knockback")]
     public float knockback;
@@ -22,6 +23,9 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         currentHP = maxHP;
+        moveSpeed = 1f;
+        attackSpeed = 1f;
+        attackRange = 1f;
     }
 
     public void TakeDamage(float damage, Vector3 knockbackDir, float knockbackForce)
