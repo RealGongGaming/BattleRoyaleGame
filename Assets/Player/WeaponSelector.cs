@@ -61,7 +61,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 4f;
                 stats.attack = 15f;
-                stats.attackRange = 1.5f;
+                stats.baseAttackRange = 1.5f;
                 stats.baseAttackSpeed = 0.8f;
                 stats.baseAttackLength = 1.6f;
                 stats.knockback = 8f;
@@ -76,7 +76,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 6f;
                 stats.attack = 10f;
-                stats.attackRange = 1f;
+                stats.baseAttackRange = 1f;
                 stats.baseAttackSpeed = 1.2f;
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 4f;
@@ -90,7 +90,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.currentHP = stats.maxHP;
                 stats.moveSpeed = 5f;
                 stats.attack = 12f;
-                stats.attackRange = 2f;
+                stats.baseAttackRange = 2f;
                 stats.baseAttackSpeed = 0.9f;
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 6f;

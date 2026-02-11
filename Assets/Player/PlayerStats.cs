@@ -12,8 +12,9 @@ public class PlayerStats : MonoBehaviour
     [Header("Attack")]
     public float attack;
     public float baseAttackSpeed;   // base attacks per second
-    public float attackSpeed;        // attack speed multiplier
-    public float attackRange;
+    public float attackSpeed = 1f;        // attack speed multiplier
+    public float baseAttackRange;
+    public float attackRange = 1f;
     public float baseAttackLength; // animation original length
 
     [Header("Knockback")]

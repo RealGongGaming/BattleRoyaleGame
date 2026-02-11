@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
 
     private void DealDamage()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, stats.attackRange);
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, stats.baseAttackRange * stats.attackRange);
         foreach (Collider hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
