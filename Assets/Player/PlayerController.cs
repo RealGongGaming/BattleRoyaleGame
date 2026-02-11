@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour
     private Vector2 move;
     private bool isGrounded;
     private Animator animator;
-    private bool canAttack = true;
     private PlayerStats stats;
 
     void Start()
@@ -44,12 +43,11 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && canAttack)
+        if (context.performed)
         {
             float finalSpeed = stats.baseAttackSpeed * stats.attackSpeed;
             animator.SetFloat("AttackSpeed", stats.baseAttackLength * finalSpeed);
             animator.SetTrigger("Attack");
-            StartCoroutine(AttackCooldown());
             StartCoroutine(DelayedDealDamage(finalSpeed));
         }
     }
@@ -84,14 +82,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-    }
-
-    private IEnumerator AttackCooldown()
-    {
-        float finalSpeed = stats.baseAttackSpeed * stats.attackSpeed;
-        canAttack = false;
-        yield return new WaitForSeconds(1f / finalSpeed);
-        canAttack = true;
     }
 
     public void OnJump(InputAction.CallbackContext context)
