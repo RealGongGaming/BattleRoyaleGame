@@ -67,9 +67,7 @@ public class PlayerController : MonoBehaviour
         foreach (Collider hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
-
             Vector3 knockbackDir = hit.transform.position - transform.position;
-
             PlayerStats enemyStats = hit.GetComponent<PlayerStats>();
             if (enemyStats != null)
             {

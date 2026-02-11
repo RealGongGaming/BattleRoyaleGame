@@ -4,7 +4,8 @@ public enum WeaponType
 {
     Greatsword,
     SwordAndShield,
-    Polearm
+    Polearm,
+    Dualsword
 }
 
 public class WeaponSelector : MonoBehaviour
@@ -15,16 +16,19 @@ public class WeaponSelector : MonoBehaviour
     public GameObject heroGreatswordBody;
     public GameObject heroSwordAndShieldBody;
     public GameObject heroPolearmBody;
+    public GameObject DualswordBody;
 
     [Header("Animator Controllers")]
     public RuntimeAnimatorController greatswordController;
     public RuntimeAnimatorController swordAndShieldController;
     public RuntimeAnimatorController polearmController;
+    public RuntimeAnimatorController DualswordController;
 
     [Header("Animation Avatars")]
     public Avatar greatswordAvatar;
     public Avatar swordAndShieldAvatar;
     public Avatar polearmAvatar;
+    public Avatar DualswordAvatar;
 
     void Start()
     {
@@ -53,6 +57,7 @@ public class WeaponSelector : MonoBehaviour
         if (heroGreatswordBody != null) heroGreatswordBody.SetActive(false);
         if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(false);
         if (heroPolearmBody != null) heroPolearmBody.SetActive(false);
+        if (DualswordBody != null) DualswordBody.SetActive(false);
 
         switch (currentWeapon)
         {
@@ -105,6 +110,23 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 6f;
                 stats.knockbackResist = 0.1f;
+                break;
+
+            case WeaponType.Dualsword:
+                if (DualswordBody != null) DualswordBody.SetActive(true);
+                animator.runtimeAnimatorController = DualswordController;
+                animator.avatar = DualswordAvatar;
+                animator.Rebind();
+                animator.Update(0f);
+                stats.maxHP = 90f;
+                stats.currentHP = stats.maxHP;
+                stats.moveSpeed = 7f;
+                stats.attack = 8f;
+                stats.baseAttackRange = 0.6f;
+                stats.baseAttackSpeed = 1.6f;
+                stats.baseAttackLength = 1.3f;
+                stats.knockback = 3f;
+                stats.knockbackResist = 0.4f;
                 break;
         }
     }
