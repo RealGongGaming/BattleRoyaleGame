@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class PlayerVisualEffects : MonoBehaviour
 {
+    [Header("Weapon Selector")]
+    public WeaponSelector weaponSelector;
+
+    [Header("Trail Materials")]
+    public Material matParry;
+    public Material matDodge;
+
     [Header("Dust Settings")]
     [SerializeField] private ParticleSystem dust;
     [SerializeField] private float minMoveSpeed = 0.1f;
@@ -33,7 +40,9 @@ public class PlayerVisualEffects : MonoBehaviour
         lastPosition = transform.position;
 
         if (dust == null) dust = GetComponentInChildren<ParticleSystem>();
-        if (skinnedMeshRenderers == null) skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+        if (weaponSelector == null) weaponSelector = GetComponent<WeaponSelector>();
+        if (skinnedMeshRenderers == null) 
+            skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
     }
 
     void Update()
@@ -47,11 +56,8 @@ public class PlayerVisualEffects : MonoBehaviour
     {
         float distance = (transform.position - lastPosition).magnitude;
         currentSpeed = distance / Time.deltaTime;
-        
         isMoving = currentSpeed > minMoveSpeed;
-
         isGrounded = Physics.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, groundLayer);
-
         lastPosition = transform.position;
     }
 
@@ -78,39 +84,55 @@ public class PlayerVisualEffects : MonoBehaviour
         }
     }
 
+    Material GetCurrentMaterial()
+    {
+        if (weaponSelector == null) return matParry;
+
+        switch (weaponSelector.currentWeapon)
+        {
+            // Class 1
+            case WeaponType.Hammer:
+            case WeaponType.SwordAndShield:
+                return matParry;
+
+            // Class 2
+            case WeaponType.Polearm:
+            case WeaponType.Dualsword:
+                return matDodge;
+
+            default:
+                return matParry;
+        }
+    }
+
     void SpawnTrailMesh()
     {
         if (skinnedMeshRenderers == null) return;
 
+        Material selectedMat = GetCurrentMaterial();
         for (int i = 0; i < skinnedMeshRenderers.Length; i++)
         {
-            GameObject gObj = new GameObject("Trail_Ghost");
+            if (!skinnedMeshRenderers[i].gameObject.activeInHierarchy) continue;
 
+            GameObject gObj = new GameObject("Trail_Ghost");
             Transform targetBone = skinnedMeshRenderers[i].transform;
             
-            // 1. วางตำแหน่งและหมุนให้ตรง
             gObj.transform.SetPositionAndRotation(targetBone.position, targetBone.rotation);
-            
-            // =========================================================
-            // [จุดที่แก้]: เปลี่ยนจาก targetBone.lossyScale เป็น Vector3.one
-            // เพื่อไม่ให้สเกลเบิ้ล หรือกลับด้านผิดๆ
-            // =========================================================
             gObj.transform.localScale = Vector3.one; 
 
             MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
             MeshFilter mf = gObj.AddComponent<MeshFilter>();
 
             Mesh mesh = new Mesh();
-            skinnedMeshRenderers[i].BakeMesh(mesh); // BakeMesh มันรวมสเกลมาให้แล้ว
+            skinnedMeshRenderers[i].BakeMesh(mesh);
 
             mf.mesh = mesh;
-            mr.material = mat;
+            mr.material = selectedMat;
 
             mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; 
             mr.receiveShadows = false; 
 
             StartCoroutine(AnimateMaterialFloat(mr.material, 0, shaderVarRate, shaderVarRefreshRate));
-
             Destroy(gObj, meshDestroyDelay);
         }
     }

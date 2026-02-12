@@ -11671,6 +11671,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
     - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: matDodge
+      value: 
+      objectReference: {fileID: 2100000, guid: 47d99526a40a5014a8bbfb181c77f15b, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: matParry
+      value: 
+      objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: weaponSelector
+      value: 
+      objectReference: {fileID: 716925385}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: groundLayer.m_Bits
       value: 1
       objectReference: {fileID: 0}
@@ -22591,9 +22603,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
     - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: matDodge
+      value: 
+      objectReference: {fileID: 2100000, guid: 47d99526a40a5014a8bbfb181c77f15b, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: matParry
+      value: 
+      objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: enableTrail
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: weaponSelector
+      value: 
+      objectReference: {fileID: 1370613931}
     - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: positionToSpawn
       value: 
