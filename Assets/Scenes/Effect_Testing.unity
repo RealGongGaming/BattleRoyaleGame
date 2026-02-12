@@ -11666,6 +11666,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 2.21
       objectReference: {fileID: 0}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: mat
+      value: 
+      objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8444679385469494192, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -22561,6 +22569,38 @@ PrefabInstance:
     - target: {fileID: 2998027648595106287, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127669347492859232, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127669347492859238, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127669347492859238, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5127669347492859238, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: mat
+      value: 
+      objectReference: {fileID: 2100000, guid: 23580173faaefd04eaff2b92a11eecc1, type: 2}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: enableTrail
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: positionToSpawn
+      value: 
+      objectReference: {fileID: 1370613939}
+    - target: {fileID: 5246223842406532521, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8444679385469494192, guid: 94666c70f395f7a4fb367b07c0557373, type: 3}
       propertyPath: m_Enabled
