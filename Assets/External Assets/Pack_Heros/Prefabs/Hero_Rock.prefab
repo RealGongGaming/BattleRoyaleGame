@@ -326,7 +326,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 751762560753533056}
-  - component: {fileID: 7110316972252806661}
+  - component: {fileID: 5246223842406532521}
   m_Layer: 0
   m_Name: Hero_Rock
   m_TagString: Untagged
@@ -350,7 +350,7 @@ Transform:
   - {fileID: 2581033161379346890}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7110316972252806661
+--- !u!114 &5246223842406532521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -359,16 +359,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 751762560753533063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d365adfa434c674b80163810b2f7b94, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d53b061694c6184f918d3548367de74, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerEffectHandler
-  dust: {fileID: 0}
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerVisualEffects
+  dust: {fileID: 5127669347492859238}
   minMoveSpeed: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
   groundCheckDistance: 0.3
   groundCheckOffset: {x: 0, y: 0.1, z: 0}
+  enableTrail: 1
+  meshRefreshRate: 0.1
+  meshDestroyDelay: 3
+  positionToSpawn: {fileID: 0}
+  mat: {fileID: 0}
+  shaderVarRef: _Alpha
+  shaderVarRate: 0.1
+  shaderVarRefreshRate: 0.05
 --- !u!1 &793293888240667872
 GameObject:
   m_ObjectHideFlags: 0
@@ -5627,5 +5635,10 @@ PrefabInstance:
 --- !u!4 &5127669347492859232 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2282438384830233660, guid: 7697a49ea05824642b45a2fab61c81c4, type: 3}
+  m_PrefabInstance: {fileID: 6378783193360576860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5127669347492859238 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2282438384830233658, guid: 7697a49ea05824642b45a2fab61c81c4, type: 3}
   m_PrefabInstance: {fileID: 6378783193360576860}
   m_PrefabAsset: {fileID: 0}
