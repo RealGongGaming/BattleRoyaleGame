@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.VFX;
 using UnityEngine;
 
 public class PlayerVisualEffects : MonoBehaviour
 {
+    [Header("Slash VFX")]
+    public VisualEffect slashEffect;
+
     [Header("Weapon Selector")]
     public WeaponSelector weaponSelector;
 
@@ -50,6 +54,14 @@ public class PlayerVisualEffects : MonoBehaviour
         CheckStatus();
         HandleDust();
         HandleTrail();
+    }
+
+    public void PlaySlashEffect()
+    {
+        if (slashEffect != null)
+        {
+            slashEffect.Play();
+        }
     }
 
     void CheckStatus()
