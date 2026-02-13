@@ -12,8 +12,10 @@ public class PlayerVisualEffects : MonoBehaviour
     public WeaponSelector weaponSelector;
 
     [Header("Trail Materials")]
-    public Material matParry;
-    public Material matDodge;
+    public Material Shadow_Hammer;
+    public Material Shadow_SwordAndShield;
+    public Material Shadow_Polearm;
+    public Material Shadow_Dualsword;
 
     [Header("Dust Settings")]
     [SerializeField] private ParticleSystem dust;
@@ -98,22 +100,22 @@ public class PlayerVisualEffects : MonoBehaviour
 
     Material GetCurrentMaterial()
     {
-        if (weaponSelector == null) return matParry;
-
         switch (weaponSelector.currentWeapon)
         {
-            // Class 1
             case WeaponType.Hammer:
-            case WeaponType.SwordAndShield:
-                return matParry;
+                return Shadow_Hammer;
 
-            // Class 2
+            case WeaponType.SwordAndShield:
+                return Shadow_SwordAndShield;
+
             case WeaponType.Polearm:
+                return Shadow_Polearm;
+
             case WeaponType.Dualsword:
-                return matDodge;
+                return Shadow_Dualsword;
 
             default:
-                return matParry;
+                return Shadow_Hammer;
         }
     }
 

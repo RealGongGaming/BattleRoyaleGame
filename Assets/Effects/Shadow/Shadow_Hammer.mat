@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shadow_Parry
+  m_Name: Shadow_Hammer
   m_Shader: {fileID: -6465566751694194690, guid: 7020ef98311ccf5418cf4b13309050a8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -59,7 +59,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Color: {r: 0.5946203, g: 0.88292134, b: 3.4415905, a: 1}
+    - _Color: {r: 0.1907271, g: 0.1907271, b: 0.1907271, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8217030332182310718
