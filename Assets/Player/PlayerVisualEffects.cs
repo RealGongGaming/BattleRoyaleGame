@@ -6,7 +6,10 @@ using UnityEngine;
 public class PlayerVisualEffects : MonoBehaviour
 {
     [Header("Slash VFX")]
-    public VisualEffect slashEffect;
+    public VisualEffect hammerSlashVFX;
+    public VisualEffect swordSlashVFX;
+    public VisualEffect polearmSlashVFX;
+    public VisualEffect dualswordSlashVFX;
 
     [Header("Weapon Selector")]
     public WeaponSelector weaponSelector;
@@ -60,9 +63,20 @@ public class PlayerVisualEffects : MonoBehaviour
 
     public void PlaySlashEffect()
     {
-        if (slashEffect != null)
+        switch (weaponSelector.currentWeapon)
         {
-            slashEffect.Play();
+            case WeaponType.Hammer:
+                if (hammerSlashVFX != null) hammerSlashVFX.Play();
+                break;
+            case WeaponType.SwordAndShield:
+                if (swordSlashVFX != null) swordSlashVFX.Play();
+                break;
+            case WeaponType.Polearm:
+                if (polearmSlashVFX != null) polearmSlashVFX.Play();
+                break;
+            case WeaponType.Dualsword:
+                if (dualswordSlashVFX != null) dualswordSlashVFX.Play();
+                break;
         }
     }
 
