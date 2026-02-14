@@ -23,8 +23,8 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool canUseParry = false;
 
     [Header("Dodge Settings")]
-    public float dodgeForce = 50f;
-    public float dodgeDuration = 0.8f;
+    public float dodgeMultiplier = 2.5f;
+    public float dodgeDuration = 0.5f;
     public float dodgeCooldown = 3f;
 
     [Header("Parry Settings")]
@@ -140,21 +140,37 @@ public class PlayerController : MonoBehaviour
         isDodging = true;
         canDodge = false;
 
+        animator.SetFloat("DodgeSpeed", 1f/dodgeDuration);
         animator.SetTrigger("Dodge");
 
         Vector3 dodgeDir = move.sqrMagnitude > 0.1f
             ? new Vector3(move.x, 0, move.y).normalized
             : transform.forward;
 
-        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
-        rb.AddForce(dodgeDir * dodgeForce, ForceMode.Impulse);
+        float dodgeSpeed = stats.moveSpeed * dodgeMultiplier;
 
-        yield return new WaitForSeconds(dodgeDuration);
+        float timer = 0f;
+
+        while (timer < dodgeDuration)
+        {
+            rb.linearVelocity = new Vector3(
+                dodgeDir.x * dodgeSpeed,
+                rb.linearVelocity.y,
+                dodgeDir.z * dodgeSpeed
+            );
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+
         isDodging = false;
 
-        yield return new WaitForSeconds(dodgeCooldown - dodgeDuration);
+        yield return new WaitForSeconds(dodgeCooldown);
         canDodge = true;
     }
+
 
     // Parry
 

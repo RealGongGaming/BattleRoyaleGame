@@ -1380,9 +1380,9 @@ MonoBehaviour:
   jumpForce: 20
   canUseDodge: 0
   canUseParry: 0
-  dodgeForce: 50
-  dodgeDuration: 0.8
-  dodgeCooldown: 2.5
+  dodgeMultiplier: 2.5
+  dodgeDuration: 0.5
+  dodgeCooldown: 3
   parryWindow: 0.4
   parryCooldown: 5
   stunDuration: 2.5
