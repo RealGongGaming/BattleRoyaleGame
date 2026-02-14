@@ -10,7 +10,26 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private Animator animator;
     private bool canAttack = true;
+    private bool canDodge = true;
+    private bool isDodging = false;
+    private bool isParrying = false;
+    private bool isStunned = false;
     private PlayerStats stats;
+
+    [Header("Ability Settings")]
+    [HideInInspector] public bool canUseDodge = false;
+    [HideInInspector] public bool canUseParry = false;
+
+    [Header("Dodge Settings")]
+    public float dodgeForce = 30f;
+    public float dodgeDuration = 0.5f;
+    public float dodgeCooldown = 2.5f;
+
+    [Header("Parry Settings")]
+    public float parryWindow = 0.8f;
+    public float parryCooldown = 4f;
+    public float stunDuration = 2.5f;
+    private bool canParry = true;
 
     void Start()
     {
@@ -20,7 +39,10 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        movePlayer();
+        if (!isDodging)
+        {
+            movePlayer();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -30,6 +52,12 @@ public class PlayerController : MonoBehaviour
 
     public void movePlayer()
     {
+        if (isStunned)
+        {
+            animator.SetBool("IsRunning", false);
+            return;
+        }
+
         if (move.sqrMagnitude > 0.1f)
         {
             Vector3 movement = new Vector3(move.x, 0, move.y) * stats.baseMoveSpeed * stats.moveSpeed * Time.deltaTime;
@@ -48,7 +76,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && canAttack)
+        if (context.performed && canAttack && !isDodging && !isParrying && !isStunned)
         {
             float finalSpeed = stats.baseAttackSpeed * stats.attackSpeed;
             animator.SetFloat("AttackSpeed", stats.baseAttackLength * finalSpeed);
@@ -71,11 +99,12 @@ public class PlayerController : MonoBehaviour
         foreach (Collider hit in hits)
         {
             if (hit.gameObject == gameObject) continue;
+
             Vector3 knockbackDir = hit.transform.position - transform.position;
             PlayerStats enemyStats = hit.GetComponent<PlayerStats>();
             if (enemyStats != null)
             {
-                enemyStats.TakeDamage(stats.attack, knockbackDir, stats.knockback);
+                enemyStats.TakeDamage(stats.attack, knockbackDir, stats.knockback, this);
             }
             else
             {
@@ -96,9 +125,103 @@ public class PlayerController : MonoBehaviour
         canAttack = true;
     }
 
+    public void OnDodge(InputAction.CallbackContext context)
+    {
+        if (context.performed && canDodge && !isDodging && !isStunned && canUseDodge)
+        {
+            StartCoroutine(DodgeRoutine());
+        }
+    }
+
+    private IEnumerator DodgeRoutine()
+    {
+        isDodging = true;
+        canDodge = false;
+        animator.SetTrigger("Dodge");
+
+        Vector3 dodgeDir;
+        if (move.sqrMagnitude > 0.1f)
+        {
+            dodgeDir = new Vector3(move.x, 0, move.y).normalized;
+            transform.rotation = Quaternion.LookRotation(dodgeDir);
+        }
+        else
+        {
+            dodgeDir = transform.forward;
+        }
+
+        rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
+        rb.AddForce(dodgeDir * dodgeForce, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(dodgeDuration);
+        isDodging = false;
+
+        yield return new WaitForSeconds(dodgeCooldown - dodgeDuration);
+        canDodge = true;
+    }
+
+    public void OnParry(InputAction.CallbackContext context)
+    {
+        if (context.performed && canParry && !isDodging && !isParrying && !isStunned && canUseParry)
+        {
+            StartCoroutine(ParryRoutine());
+        }
+    }
+
+    private IEnumerator ParryRoutine()
+    {
+        isParrying = true;
+        canParry = false;
+        animator.SetTrigger("Parry");
+
+        yield return new WaitForSeconds(parryWindow);
+        isParrying = false;
+
+        yield return new WaitForSeconds(parryCooldown);
+        canParry = true;
+    }
+
+    public bool IsParrying() => isParrying;
+
+    public bool TryParry(Vector3 attackerPosition, PlayerController attacker)
+    {
+        if (!isParrying) return false;
+
+        
+        if (attacker != null)
+        {
+            attacker.ApplyStun(stunDuration);
+        }
+
+        StopCoroutine(nameof(ParryRoutine));
+        isParrying = false;
+        canParry = true;
+
+        return true;
+    }
+
+    public bool IsStunned() => isStunned;
+
+    public void ApplyStun(float duration)
+    {
+        StartCoroutine(StunRoutine(duration));
+    }
+
+    private IEnumerator StunRoutine(float duration)
+    {
+        isStunned = true;
+        animator.SetBool("IsStunned", true);
+        rb.linearVelocity = Vector3.zero;
+
+        yield return new WaitForSeconds(duration);
+
+        isStunned = false;
+        animator.SetBool("IsStunned", false);
+    }
+
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded)
+        if (context.performed && isGrounded && !isStunned)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;

@@ -5,19 +5,23 @@ public class PlayerStats : MonoBehaviour
     [Header("Health")]
     public float maxHP;
     public float currentHP;
+
     [Header("Movement")]
-    public float baseMoveSpeed; // base movement speed
-    public float moveSpeed;     // movement speed multiplier
+    public float baseMoveSpeed;
+    public float moveSpeed;
+
     [Header("Attack")]
     public float attack;
-    public float baseAttackSpeed;   // base attack per second
-    public float attackSpeed;  // attack speed multiplier
+    public float baseAttackSpeed;
+    public float attackSpeed;
     public float baseAttackRange;
     public float attackRange;
-    public float baseAttackLength;  // animation original length
+    public float baseAttackLength;
+
     [Header("Knockback")]
     public float knockback;
-    public float knockbackResist;   // 0 = no resist, 1 = full resist
+    public float knockbackResist;
+
     private bool isDead = false;
 
     void Start()
@@ -28,12 +32,22 @@ public class PlayerStats : MonoBehaviour
         attackRange = 1f;
     }
 
-    public void TakeDamage(float damage, Vector3 knockbackDir, float knockbackForce)
+    public void TakeDamage(float damage, Vector3 knockbackDir, float knockbackForce, PlayerController attacker = null)
     {
         if (isDead) return;
+
+        PlayerController controller = GetComponent<PlayerController>();
+        if (controller != null && controller.TryParry(transform.position + knockbackDir, attacker))
+        {
+            Debug.Log("Parried! Attacker stunned!");
+            return;
+        }
+
         currentHP -= damage;
+
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("GetHit");
+
         float actualKnockback = knockbackForce * (1f - Mathf.Clamp01(knockbackResist));
         if (actualKnockback > 0f)
         {
@@ -43,6 +57,7 @@ public class PlayerStats : MonoBehaviour
                 rb.AddForce(knockbackDir.normalized * actualKnockback, ForceMode.Impulse);
             }
         }
+
         if (currentHP <= 0)
         {
             Die();
@@ -57,13 +72,16 @@ public class PlayerStats : MonoBehaviour
     private void Die()
     {
         isDead = true;
+
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("Die");
+
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null)
         {
             controller.enabled = false;
         }
+
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {

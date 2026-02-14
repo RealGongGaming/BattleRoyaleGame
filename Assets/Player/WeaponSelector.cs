@@ -89,12 +89,15 @@ public class WeaponSelector : MonoBehaviour
         SaveOriginalScales();
         Animator animator = GetComponent<Animator>();
         PlayerStats stats = GetComponent<PlayerStats>();
+        PlayerController controller = GetComponent<PlayerController>();
 
+        // Disable all bodies
         if (heroHammerBody != null) heroHammerBody.SetActive(false);
         if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(false);
         if (heroPolearmBody != null) heroPolearmBody.SetActive(false);
         if (DualswordBody != null) DualswordBody.SetActive(false);
 
+        // Disable all weapons
         if (hammerModel != null) hammerModel.SetActive(false);
         if (swordModel != null) swordModel.SetActive(false);
         if (shieldModel != null) shieldModel.SetActive(false);
@@ -119,6 +122,8 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.6f;
                 stats.knockback = 30f;
                 stats.knockbackResist = 0.2f;
+                controller.canUseDodge = false;
+                controller.canUseParry = true;
                 ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
                 break;
 
@@ -137,6 +142,8 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 16f;
                 stats.knockbackResist = 0.3f;
+                controller.canUseDodge = false;
+                controller.canUseParry = true;
                 ScaleWeapon(swordModel, swordOrigScale, stats.attackRange);
                 ScaleWeapon(shieldModel, shieldOrigScale, stats.attackRange);
                 break;
@@ -156,6 +163,8 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.4f;
                 stats.knockback = 24f;
                 stats.knockbackResist = 0.1f;
+                controller.canUseDodge = true;
+                controller.canUseParry = false;
                 ScaleWeapon(polearmModel, polearmOrigScale, stats.attackRange);
                 break;
 
@@ -174,6 +183,8 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseAttackLength = 1.3f;
                 stats.knockback = 12f;
                 stats.knockbackResist = 0.4f;
+                controller.canUseDodge = true;
+                controller.canUseParry = false;
                 ScaleWeapon(dualsword1Model, dualsword1OrigScale, stats.attackRange);
                 ScaleWeapon(dualsword2Model, dualsword2OrigScale, stats.attackRange);
                 break;
