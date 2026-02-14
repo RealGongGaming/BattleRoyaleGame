@@ -21,9 +21,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public bool canUseParry = false;
 
     [Header("Dodge Settings")]
-    public float dodgeForce = 30f;
-    public float dodgeDuration = 0.5f;
-    public float dodgeCooldown = 2.5f;
+    public float dodgeForce = 50f;
+    public float dodgeDuration = 0.8f;
+    public float dodgeCooldown = 3f;
 
     [Header("Parry Settings")]
     public float parryWindow = 0.8f;
