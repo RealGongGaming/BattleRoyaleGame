@@ -6,7 +6,11 @@ using UnityEngine;
 public class PlayerVisualEffects : MonoBehaviour
 {
     [Header("Slash VFX")]
-    public VisualEffect slashEffect;
+    public VisualEffect hammerSlashVFX;
+    public VisualEffect swordSlashVFX;
+    public VisualEffect polearmSlashVFX;
+    public VisualEffect dualswordSlashVFX_1;
+    public VisualEffect dualswordSlashVFX_2;
 
     [Header("Weapon Selector")]
     public WeaponSelector weaponSelector;
@@ -19,14 +23,14 @@ public class PlayerVisualEffects : MonoBehaviour
 
     [Header("Dust Settings")]
     [SerializeField] private ParticleSystem dust;
-    [SerializeField] private float minMoveSpeed = 0.1f;
+    [SerializeField] private float minMoveSpeed = 1.0f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private Vector3 groundCheckOffset = new Vector3(0, 0.1f, 0);
 
     [Header("Trail Mesh Settings")]
-    public float meshRefreshRate = 0.1f;
-    public float meshDestroyDelay = 3f;
+    public float meshRefreshRate = 0.15f;
+    public float meshDestroyDelay = 1.5f;
 
     [Header("Trail Shader Settings")]
     public Material mat; 
@@ -58,20 +62,49 @@ public class PlayerVisualEffects : MonoBehaviour
         HandleTrail();
     }
 
-    public void PlaySlashEffect()
+    public void PlaySlashEffect(int count)
     {
-        if (slashEffect != null)
+        if (count == 0) count = 1;
+
+        switch (weaponSelector.currentWeapon)
         {
-            slashEffect.Play();
+            case WeaponType.Hammer:
+                hammerSlashVFX.Play();
+                break;
+            case WeaponType.SwordAndShield:
+                swordSlashVFX.Play();
+                break;
+            case WeaponType.Polearm:
+                polearmSlashVFX.Play();
+                break;
+            case WeaponType.Dualsword:
+                if (count == 1)
+                {
+                    dualswordSlashVFX_1.Play();
+                }
+                else if (count == 2)
+                {
+                    dualswordSlashVFX_2.Play();
+                }
+                break;
         }
     }
 
     void CheckStatus()
     {
+        isGrounded = Physics.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, groundLayer);
         float distance = (transform.position - lastPosition).magnitude;
         currentSpeed = distance / Time.deltaTime;
-        isMoving = currentSpeed > minMoveSpeed;
-        isGrounded = Physics.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, groundLayer);
+
+        if (isGrounded)
+        {
+            isMoving = currentSpeed > minMoveSpeed;
+        }
+        else
+        {
+            isMoving = currentSpeed > (minMoveSpeed * 0.5f); 
+        }
+
         lastPosition = transform.position;
     }
 
