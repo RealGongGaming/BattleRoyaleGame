@@ -38,31 +38,31 @@ public class WeaponHitbox : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (!isActive) return;
+        if (other.transform.root == owner.transform.root) return;
 
-        if (other.transform.root == owner.transform.root)
-            return;
-
-        GameObject rootObj = other.transform.root.gameObject;
-
-        if (alreadyHit.Contains(rootObj))
-            return;
-
-        alreadyHit.Add(rootObj);
-
-        Vector3 knockbackDir =
-            (rootObj.transform.position - owner.transform.position).normalized;
-
-        PlayerController enemyController =
-            rootObj.GetComponent<PlayerController>();
+        PlayerController enemyController = other.transform.root.GetComponent<PlayerController>();
 
         if (enemyController != null)
         {
-            enemyController.ReceiveAttack(
-                ownerStats.attack,
-                knockbackDir,
-                ownerStats.knockback,
-                owner
-            );
+            GameObject rootObj = other.transform.root.gameObject;
+            if (alreadyHit.Contains(rootObj)) return;
+            alreadyHit.Add(rootObj);
+
+            Vector3 knockbackDir = (rootObj.transform.position - owner.transform.position).normalized;
+            enemyController.ReceiveAttack(ownerStats.attack, knockbackDir, ownerStats.knockback, owner);
+        }
+        else
+        {
+            if (alreadyHit.Contains(other.gameObject)) return;
+            alreadyHit.Add(other.gameObject);
+
+            Vector3 knockbackDir = (other.transform.position - owner.transform.position).normalized;
+            Rigidbody hitRb = other.GetComponent<Rigidbody>();
+            if (hitRb == null) hitRb = other.GetComponentInParent<Rigidbody>();
+            if (hitRb != null)
+            {
+                hitRb.AddForce(knockbackDir * ownerStats.knockback, ForceMode.Impulse);
+            }
         }
     }
 }

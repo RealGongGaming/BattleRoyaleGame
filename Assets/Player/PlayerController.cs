@@ -28,8 +28,8 @@ public class PlayerController : MonoBehaviour
     public float dodgeCooldown = 3f;
 
     [Header("Parry Settings")]
-    public float parryWindow = 0.8f;
-    public float parryCooldown = 4f;
+    public float parryWindow = 0.4f;
+    public float parryCooldown = 5f;
     public float stunDuration = 2.5f;
 
     private bool canParry = true;

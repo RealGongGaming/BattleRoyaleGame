@@ -1383,8 +1383,8 @@ MonoBehaviour:
   dodgeForce: 50
   dodgeDuration: 0.8
   dodgeCooldown: 2.5
-  parryWindow: 0.8
-  parryCooldown: 4
+  parryWindow: 0.4
+  parryCooldown: 5
   stunDuration: 2.5
   eventReceiver: {fileID: 883679780834439544}
 --- !u!54 &8125854424298262982
@@ -1449,16 +1449,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73d99f66ccfd1ed4ab011c8d559d1879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  baseMaxHP: 0
+  baseMoveSpeed: 0
+  baseAttack: 0
+  baseAttackSpeed: 0
+  baseAttackRange: 0
+  baseAttackLength: 0
+  baseKnockback: 0
+  baseKnockbackResist: 0
+  hpMultiplier: 1
+  moveSpeedMultiplier: 1
+  attackMultiplier: 1
+  attackSpeedMultiplier: 1
+  attackRangeMultiplier: 1
+  knockbackMultiplier: 1
+  knockbackResistBonus: 0
   maxHP: 0
   currentHP: 0
-  baseMoveSpeed: 0
   moveSpeed: 0
   attack: 0
-  baseAttackSpeed: 0
   attackSpeed: 1
-  baseAttackRange: 0
   attackRange: 1
-  baseAttackLength: 0
   knockback: 0
   knockbackResist: 0
 --- !u!114 &3245879199206647593
