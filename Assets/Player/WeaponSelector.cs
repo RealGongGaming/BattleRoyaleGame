@@ -84,11 +84,38 @@ public class WeaponSelector : MonoBehaviour
         ApplyWeapon();
     }
 
+    public void RescaleWeapons()
+    {
+        SaveOriginalScales();
+        PlayerStats stats = GetComponent<PlayerStats>();
+
+        switch (currentWeapon)
+        {
+            case WeaponType.Hammer:
+                ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
+                break;
+            case WeaponType.SwordAndShield:
+                ScaleWeapon(swordModel, swordOrigScale, stats.attackRange);
+                ScaleWeapon(shieldModel, shieldOrigScale, stats.attackRange);
+                break;
+            case WeaponType.Polearm:
+                ScaleWeapon(polearmModel, polearmOrigScale, stats.attackRange);
+                break;
+            case WeaponType.Dualsword:
+                ScaleWeapon(dualsword1Model, dualsword1OrigScale, stats.attackRange);
+                ScaleWeapon(dualsword2Model, dualsword2OrigScale, stats.attackRange);
+                break;
+        }
+    }
+
     public void ApplyWeapon()
     {
         SaveOriginalScales();
+
         Animator animator = GetComponent<Animator>();
         PlayerStats stats = GetComponent<PlayerStats>();
+        PlayerController controller = GetComponent<PlayerController>();
+        AnimationEventReceiver eventReceiver = GetComponent<AnimationEventReceiver>();
 
         if (heroHammerBody != null) heroHammerBody.SetActive(false);
         if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(false);
@@ -105,78 +132,128 @@ public class WeaponSelector : MonoBehaviour
         switch (currentWeapon)
         {
             case WeaponType.Hammer:
-                if (heroHammerBody != null) heroHammerBody.SetActive(true);
+
+                heroHammerBody.SetActive(true);
+
                 animator.runtimeAnimatorController = hammerController;
                 animator.avatar = hammerAvatar;
                 animator.Rebind();
                 animator.Update(0f);
-                stats.maxHP = 120f;
-                stats.currentHP = stats.maxHP;
+
+                stats.baseMaxHP = 120f;
                 stats.baseMoveSpeed = 4f;
-                stats.attack = 15f;
-                stats.baseAttackRange = 1.5f;
+                stats.baseAttack = 15f;
                 stats.baseAttackSpeed = 0.8f;
+                stats.baseAttackRange = 1.5f;
                 stats.baseAttackLength = 1.6f;
-                stats.knockback = 30f;
-                stats.knockbackResist = 0.2f;
-                ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
+                stats.baseKnockback = 30f;
+                stats.baseKnockbackResist = 0.2f;
+
+                controller.canUseDodge = false;
+                controller.canUseParry = true;
+
+                eventReceiver.SetActiveWeapon(WeaponType.Hammer);
+
                 break;
 
+
             case WeaponType.SwordAndShield:
-                if (heroSwordAndShieldBody != null) heroSwordAndShieldBody.SetActive(true);
+
+                heroSwordAndShieldBody.SetActive(true);
+
                 animator.runtimeAnimatorController = swordAndShieldController;
                 animator.avatar = swordAndShieldAvatar;
                 animator.Rebind();
                 animator.Update(0f);
-                stats.maxHP = 100f;
-                stats.currentHP = stats.maxHP;
+
+                stats.baseMaxHP = 100f;
                 stats.baseMoveSpeed = 6f;
-                stats.attack = 10f;
-                stats.baseAttackRange = 1f;
+                stats.baseAttack = 10f;
                 stats.baseAttackSpeed = 1.2f;
+                stats.baseAttackRange = 1f;
                 stats.baseAttackLength = 1.4f;
-                stats.knockback = 16f;
-                stats.knockbackResist = 0.3f;
-                ScaleWeapon(swordModel, swordOrigScale, stats.attackRange);
-                ScaleWeapon(shieldModel, shieldOrigScale, stats.attackRange);
+                stats.baseKnockback = 16f;
+                stats.baseKnockbackResist = 0.3f;
+
+                controller.canUseDodge = false;
+                controller.canUseParry = true;
+
+                eventReceiver.SetActiveWeapon(WeaponType.SwordAndShield);
+
                 break;
 
+
             case WeaponType.Polearm:
-                if (heroPolearmBody != null) heroPolearmBody.SetActive(true);
+
+                heroPolearmBody.SetActive(true);
+
                 animator.runtimeAnimatorController = polearmController;
                 animator.avatar = polearmAvatar;
                 animator.Rebind();
                 animator.Update(0f);
-                stats.maxHP = 100f;
-                stats.currentHP = stats.maxHP;
+
+                stats.baseMaxHP = 100f;
                 stats.baseMoveSpeed = 5f;
-                stats.attack = 12f;
-                stats.baseAttackRange = 2f;
+                stats.baseAttack = 12f;
                 stats.baseAttackSpeed = 0.9f;
+                stats.baseAttackRange = 2f;
                 stats.baseAttackLength = 1.4f;
-                stats.knockback = 24f;
-                stats.knockbackResist = 0.1f;
-                ScaleWeapon(polearmModel, polearmOrigScale, stats.attackRange);
+                stats.baseKnockback = 24f;
+                stats.baseKnockbackResist = 0.1f;
+
+                controller.canUseDodge = true;
+                controller.canUseParry = false;
+
+                eventReceiver.SetActiveWeapon(WeaponType.Polearm);
+
                 break;
 
+
             case WeaponType.Dualsword:
-                if (DualswordBody != null) DualswordBody.SetActive(true);
+
+                DualswordBody.SetActive(true);
+
                 animator.runtimeAnimatorController = DualswordController;
                 animator.avatar = DualswordAvatar;
                 animator.Rebind();
                 animator.Update(0f);
-                stats.maxHP = 90f;
-                stats.currentHP = stats.maxHP;
+
+                stats.baseMaxHP = 90f;
                 stats.baseMoveSpeed = 7f;
-                stats.attack = 8f;
-                stats.baseAttackRange = 0.6f;
+                stats.baseAttack = 8f;
                 stats.baseAttackSpeed = 1.6f;
+                stats.baseAttackRange = 0.6f;
                 stats.baseAttackLength = 1.3f;
-                stats.knockback = 12f;
-                stats.knockbackResist = 0.4f;
-                ScaleWeapon(dualsword1Model, dualsword1OrigScale, stats.attackRange);
-                ScaleWeapon(dualsword2Model, dualsword2OrigScale, stats.attackRange);
+                stats.baseKnockback = 12f;
+                stats.baseKnockbackResist = 0.4f;
+
+                controller.canUseDodge = true;
+                controller.canUseParry = false;
+
+                eventReceiver.SetActiveWeapon(WeaponType.Dualsword);
+
                 break;
         }
+
+        stats.RecalculateStats();
+        stats.currentHP = stats.maxHP;
+
+        if (hammerModel != null)
+            ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
+
+        if (swordModel != null)
+            ScaleWeapon(swordModel, swordOrigScale, stats.attackRange);
+
+        if (shieldModel != null)
+            ScaleWeapon(shieldModel, shieldOrigScale, stats.attackRange);
+
+        if (polearmModel != null)
+            ScaleWeapon(polearmModel, polearmOrigScale, stats.attackRange);
+
+        if (dualsword1Model != null)
+            ScaleWeapon(dualsword1Model, dualsword1OrigScale, stats.attackRange);
+
+        if (dualsword2Model != null)
+            ScaleWeapon(dualsword2Model, dualsword2OrigScale, stats.attackRange);
     }
 }
