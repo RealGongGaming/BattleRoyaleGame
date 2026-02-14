@@ -6,17 +6,15 @@ public class PlayerController : MonoBehaviour
 {
     public Rigidbody rb;
     public float jumpForce = 10f;
-
     private Vector2 move;
     private bool isGrounded;
     private Animator animator;
-    private PlayerStats stats;
-
     private bool canAttack = true;
     private bool canDodge = true;
     private bool isDodging = false;
     private bool isParrying = false;
     private bool isStunned = false;
+    private PlayerStats stats;
 
     [Header("Ability Settings")]
     [HideInInspector] public bool canUseDodge = false;
@@ -31,12 +29,7 @@ public class PlayerController : MonoBehaviour
     public float parryWindow = 0.8f;
     public float parryCooldown = 4f;
     public float stunDuration = 2.5f;
-
     private bool canParry = true;
-    private Coroutine parryCoroutine;
-
-    [Header("Weapon Hitbox")]
-    public AnimationEventReceiver eventReceiver;
 
     void Start()
     {
@@ -48,7 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDodging)
         {
-            MovePlayer();
+            movePlayer();
         }
     }
 
@@ -57,7 +50,7 @@ public class PlayerController : MonoBehaviour
         move = context.ReadValue<Vector2>();
     }
 
-    void MovePlayer()
+    public void movePlayer()
     {
         if (isStunned)
         {
@@ -67,19 +60,11 @@ public class PlayerController : MonoBehaviour
 
         if (move.sqrMagnitude > 0.1f)
         {
-            Vector3 movement = new Vector3(move.x, 0, move.y) *
-                               stats.moveSpeed *
-                               Time.deltaTime;
-
+            Vector3 movement = new Vector3(move.x, 0, move.y) * stats.baseMoveSpeed * stats.moveSpeed * Time.deltaTime;
             if (movement.sqrMagnitude > 0.0001f)
             {
-                transform.rotation = Quaternion.Slerp(
-                    transform.rotation,
-                    Quaternion.LookRotation(movement),
-                    0.15f
-                );
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(movement), 0.15F);
             }
-
             transform.Translate(movement, Space.World);
             animator.SetBool("IsRunning", true);
         }
@@ -89,43 +74,56 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    // Attack
-
     public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed && canAttack && !isDodging && !isParrying && !isStunned)
         {
-            float finalSpeed = stats.attackSpeed;
-
+            float finalSpeed = stats.baseAttackSpeed * stats.attackSpeed;
             animator.SetFloat("AttackSpeed", stats.baseAttackLength * finalSpeed);
             animator.SetTrigger("Attack");
-
-            StartCoroutine(AttackCooldown(finalSpeed));
-            StartCoroutine(HitboxWindow(finalSpeed));
+            StartCoroutine(AttackCooldown());
+            StartCoroutine(DelayedDealDamage(finalSpeed));
         }
     }
 
-    IEnumerator HitboxWindow(float finalSpeed)
+    private IEnumerator DelayedDealDamage(float finalSpeed)
     {
-        float startDelay = (stats.baseAttackLength / 4f) / finalSpeed;
-        float activeTime = (stats.baseAttackLength / 4f) / finalSpeed;
-
-        yield return new WaitForSeconds(startDelay);
-        eventReceiver.EnableHitbox();
-
-        yield return new WaitForSeconds(activeTime);
-        eventReceiver.DisableHitbox();
+        float hitDelay = (stats.baseAttackLength / 4f) / finalSpeed;
+        yield return new WaitForSeconds(hitDelay);
+        DealDamage();
     }
 
-    IEnumerator AttackCooldown(float finalSpeed)
+    private void DealDamage()
     {
+        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward, stats.baseAttackRange * stats.attackRange);
+        foreach (Collider hit in hits)
+        {
+            if (hit.gameObject == gameObject) continue;
+
+            Vector3 knockbackDir = hit.transform.position - transform.position;
+            PlayerStats enemyStats = hit.GetComponent<PlayerStats>();
+            if (enemyStats != null)
+            {
+                enemyStats.TakeDamage(stats.attack, knockbackDir, stats.knockback, this);
+            }
+            else
+            {
+                Rigidbody hitRb = hit.GetComponent<Rigidbody>();
+                if (hitRb != null)
+                {
+                    hitRb.AddForce(knockbackDir.normalized * stats.knockback, ForceMode.Impulse);
+                }
+            }
+        }
+    }
+
+    private IEnumerator AttackCooldown()
+    {
+        float finalSpeed = stats.baseAttackSpeed * stats.attackSpeed;
         canAttack = false;
         yield return new WaitForSeconds((1f / finalSpeed) * 0.7f);
         canAttack = true;
     }
-
-    // Dodge
 
     public void OnDodge(InputAction.CallbackContext context)
     {
@@ -135,16 +133,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator DodgeRoutine()
+    private IEnumerator DodgeRoutine()
     {
         isDodging = true;
         canDodge = false;
-
         animator.SetTrigger("Dodge");
 
-        Vector3 dodgeDir = move.sqrMagnitude > 0.1f
-            ? new Vector3(move.x, 0, move.y).normalized
-            : transform.forward;
+        Vector3 dodgeDir;
+        if (move.sqrMagnitude > 0.1f)
+        {
+            dodgeDir = new Vector3(move.x, 0, move.y).normalized;
+            transform.rotation = Quaternion.LookRotation(dodgeDir);
+        }
+        else
+        {
+            dodgeDir = transform.forward;
+        }
 
         rb.linearVelocity = new Vector3(0, rb.linearVelocity.y, 0);
         rb.AddForce(dodgeDir * dodgeForce, ForceMode.Impulse);
@@ -156,21 +160,18 @@ public class PlayerController : MonoBehaviour
         canDodge = true;
     }
 
-    // Parry
-
     public void OnParry(InputAction.CallbackContext context)
     {
         if (context.performed && canParry && !isDodging && !isParrying && !isStunned && canUseParry)
         {
-            parryCoroutine = StartCoroutine(ParryRoutine());
+            StartCoroutine(ParryRoutine());
         }
     }
 
-    IEnumerator ParryRoutine()
+    private IEnumerator ParryRoutine()
     {
         isParrying = true;
         canParry = false;
-
         animator.SetTrigger("Parry");
 
         yield return new WaitForSeconds(parryWindow);
@@ -180,44 +181,33 @@ public class PlayerController : MonoBehaviour
         canParry = true;
     }
 
-    public bool TryParry(PlayerController attacker)
+    public bool IsParrying() => isParrying;
+
+    public bool TryParry(Vector3 attackerPosition, PlayerController attacker)
     {
         if (!isParrying) return false;
 
+        
         if (attacker != null)
         {
             attacker.ApplyStun(stunDuration);
         }
 
-        if (parryCoroutine != null)
-            StopCoroutine(parryCoroutine);
-
+        StopCoroutine(nameof(ParryRoutine));
         isParrying = false;
         canParry = true;
 
         return true;
     }
 
-    // Receive Attack
-
-    public void ReceiveAttack(float damage, Vector3 knockbackDir, float knockbackForce, PlayerController attacker)
-    {
-        if (TryParry(attacker))
-        {
-            return;
-        }
-
-        stats.TakeDamage(damage, knockbackDir, knockbackForce);
-    }
-
-    // Stun
+    public bool IsStunned() => isStunned;
 
     public void ApplyStun(float duration)
     {
         StartCoroutine(StunRoutine(duration));
     }
 
-    IEnumerator StunRoutine(float duration)
+    private IEnumerator StunRoutine(float duration)
     {
         isStunned = true;
         animator.SetBool("IsStunned", true);
@@ -228,8 +218,6 @@ public class PlayerController : MonoBehaviour
         isStunned = false;
         animator.SetBool("IsStunned", false);
     }
-
-    // Jump
 
     public void OnJump(InputAction.CallbackContext context)
     {
