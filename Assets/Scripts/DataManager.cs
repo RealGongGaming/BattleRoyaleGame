@@ -1,16 +1,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
+public class PlayerData
+{
+    public string playerID;
+    public bool isReady;
+    public WeaponType weaponType;
+}
+
 public class DataManager : MonoBehaviour
 {
-    private Dictionary<string, bool> readyPlayer = new Dictionary<string, bool>();
-    public Dictionary<string, bool> ReadyPlayers
-    {
-        get => readyPlayer;
-        set => readyPlayer = value;
-    }
-
     public static DataManager instance;
+
+    public PlayerData[] players = new PlayerData[3];
 
     private void Awake()
     {
@@ -18,6 +22,9 @@ public class DataManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            for (int i = 0; i < players.Length; i++)
+                players[i] = new PlayerData();
         }
         else
         {
@@ -25,19 +32,56 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void SetPlayerReady(string playerID, bool isReady)
+    public void SetPlayerData(string id, bool ready, WeaponType weapon)
     {
-        readyPlayer[playerID] = isReady;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].playerID == id || string.IsNullOrEmpty(players[i].playerID))
+            {
+                players[i].playerID = id;
+                players[i].isReady = ready;
+                players[i].weaponType = weapon;
+
+                PrintAllPlayers(); 
+                return;
+            }
+        }
+
+        PrintAllPlayers(); 
+    }
+    //for debug
+    private void PrintAllPlayers()
+    {
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i] == null) continue;
+
+            Debug.Log(
+                $"Slot {i} | ID: {players[i].playerID} | Ready: {players[i].isReady} | Weapon: {players[i].weaponType}"
+            );
+        }
     }
 
-    public void RemovePlayer(string playerID)
+
+    public void RemovePlayer(string id)
     {
-        if (readyPlayer.ContainsKey(playerID))
-            readyPlayer.Remove(playerID);
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (players[i].playerID == id)
+            {
+                players[i] = new PlayerData();
+                return;
+            }
+        }
     }
 
-    public bool IsPlayerReady(string playerID)
+    public int ReadyCount()
     {
-        return readyPlayer.ContainsKey(playerID) && readyPlayer[playerID];
+        int count = 0;
+        foreach (var p in players)
+            if (p != null && p.isReady)
+                count++;
+
+        return count;
     }
 }

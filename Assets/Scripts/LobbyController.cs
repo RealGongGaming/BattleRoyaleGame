@@ -4,23 +4,27 @@ using System.Collections;
 using TMPro;
 public class LobbyController : MonoBehaviour
 {
-    private Vector2 IsCharacterCycling;
     public bool isReady = false;
     public TextMeshProUGUI ReadyText;
     public TextMeshProUGUI WeaponText;
+    public bool canCycleWeapon = true;
     public WeaponSelector WeaponSelectorP;
 
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        
+        
         if (!context.performed) return;
 
         Vector2 input = context.ReadValue<Vector2>();
-
-        if (input.x > 0.5f)
-            CycleWeaponForward();
-        else if (input.x < -0.5f)
-            CycleWeaponBackward();
+        if (canCycleWeapon)
+        {
+            if (input.x > 0.5f)
+                CycleWeaponForward();
+            else if (input.x < -0.5f)
+                CycleWeaponBackward();
+        }
     }
 
     void CycleWeaponForward()
@@ -76,21 +80,21 @@ public class LobbyController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed)
-        {
-            isReady = !isReady;
+        if (!context.performed) return;
 
-            string playerID = gameObject.name;
-            DataManager.instance.SetPlayerReady(playerID, isReady);
-            foreach (var kvp in DataManager.instance.ReadyPlayers)
-            {
-                Debug.Log($"Player: {kvp.Key} | Ready: {kvp.Value}");
-            }
+        isReady = !isReady;
 
+        canCycleWeapon = !isReady;
 
-            ReadyText.text = isReady ? "Ready" : "Not Ready";
-            ReadyText.color = isReady ? Color.green : Color.red;
-        }
+        DataManager.instance.SetPlayerData(
+            gameObject.name,
+            isReady,
+            WeaponSelectorP.currentWeapon
+        );
+
+        // UI feedback
+        ReadyText.text = isReady ? "Ready" : "Not Ready";
+        ReadyText.color = isReady ? Color.green : Color.red;
     }
 
 
