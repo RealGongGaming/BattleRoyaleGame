@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 76804eff45584f742b332f2250c739c1
+guid: dcad6c19cf40a94418ab29220e061a4d
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Norwester
+  - Union Rodeo
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

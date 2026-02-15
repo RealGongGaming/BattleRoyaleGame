@@ -178,8 +178,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Play
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
-  m_sharedMaterial: {fileID: -4041232570081539463, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
+  m_sharedMaterial: {fileID: 9060229730335275237, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -203,7 +203,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 30.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -630,8 +630,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: GongRoyale
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
-  m_sharedMaterial: {fileID: -4041232570081539463, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
+  m_sharedMaterial: {fileID: 9060229730335275237, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -655,7 +655,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.4
+  m_fontSize: 38.25
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -846,8 +846,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
-  m_sharedMaterial: {fileID: -4041232570081539463, guid: e3cb730c81d26294eac8c5b9c0ca18e6, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
+  m_sharedMaterial: {fileID: 9060229730335275237, guid: 5ff68939362602c4bbfe89164e638c91, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -871,7 +871,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
+  m_fontSize: 30.95
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
