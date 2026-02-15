@@ -33,10 +33,13 @@ public class PlayerVisualEffects : MonoBehaviour
     public float meshDestroyDelay = 1.5f;
 
     [Header("Trail Shader Settings")]
-    public Material mat; 
-    public string shaderVarRef = "_Alpha"; 
+    public Material mat;
+    public string shaderVarRef = "_Alpha";
     public float shaderVarRate = 0.1f;
     public float shaderVarRefreshRate = 0.05f;
+
+    [Header("Parry Effect")]
+    public GameObject parryRaysEffect;
 
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private float spawnTimer;
@@ -51,7 +54,7 @@ public class PlayerVisualEffects : MonoBehaviour
 
         if (dust == null) dust = GetComponentInChildren<ParticleSystem>();
         if (weaponSelector == null) weaponSelector = GetComponent<WeaponSelector>();
-        if (skinnedMeshRenderers == null) 
+        if (skinnedMeshRenderers == null)
             skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
     }
 
@@ -60,6 +63,18 @@ public class PlayerVisualEffects : MonoBehaviour
         CheckStatus();
         HandleDust();
         HandleTrail();
+    }
+
+    public void ShowParryEffect()
+    {
+        if (parryRaysEffect != null)
+            parryRaysEffect.SetActive(true);
+    }
+
+    public void HideParryEffect()
+    {
+        if (parryRaysEffect != null)
+            parryRaysEffect.SetActive(false);
     }
 
     public void PlaySlashEffect(int count)
@@ -102,7 +117,7 @@ public class PlayerVisualEffects : MonoBehaviour
         }
         else
         {
-            isMoving = currentSpeed > (minMoveSpeed * 0.5f); 
+            isMoving = currentSpeed > (minMoveSpeed * 0.5f);
         }
 
         lastPosition = transform.position;
@@ -163,9 +178,9 @@ public class PlayerVisualEffects : MonoBehaviour
 
             GameObject gObj = new GameObject("Trail_Ghost");
             Transform targetBone = skinnedMeshRenderers[i].transform;
-            
+
             gObj.transform.SetPositionAndRotation(targetBone.position, targetBone.rotation);
-            gObj.transform.localScale = Vector3.one; 
+            gObj.transform.localScale = Vector3.one;
 
             MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
             MeshFilter mf = gObj.AddComponent<MeshFilter>();
@@ -176,8 +191,8 @@ public class PlayerVisualEffects : MonoBehaviour
             mf.mesh = mesh;
             mr.material = selectedMat;
 
-            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; 
-            mr.receiveShadows = false; 
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            mr.receiveShadows = false;
 
             StartCoroutine(AnimateMaterialFloat(mr.material, 0, shaderVarRate, shaderVarRefreshRate));
             Destroy(gObj, meshDestroyDelay);
@@ -186,7 +201,7 @@ public class PlayerVisualEffects : MonoBehaviour
 
     IEnumerator AnimateMaterialFloat(Material mat, float goal, float rate, float refreshRate)
     {
-        if(mat.HasProperty(shaderVarRef))
+        if (mat.HasProperty(shaderVarRef))
         {
             float valueToAnimate = mat.GetFloat(shaderVarRef);
 
