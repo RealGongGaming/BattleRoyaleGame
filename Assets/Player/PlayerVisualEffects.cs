@@ -80,7 +80,9 @@ public class PlayerVisualEffects : MonoBehaviour
         if (vfx.HasFloat("AttackScale"))
         {
             vfx.SetFloat("AttackScale", playerStats.attackRange);
-        }
+        }  
+    }
+    
     public void ShowParryEffect()
     {
         if (parryRaysEffect != null)
