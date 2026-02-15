@@ -222,11 +222,6 @@ public class PlayerController : MonoBehaviour
             attacker.ApplyStun(stunDuration);
         }
 
-        if (parryCoroutine != null)
-            StopCoroutine(parryCoroutine);
-
-        visualEffects.HideParryEffect();
-        isParrying = false;
         canParry = true;
 
         return true;
@@ -256,9 +251,11 @@ public class PlayerController : MonoBehaviour
         isStunned = true;
         animator.SetBool("IsStunned", true);
         rb.linearVelocity = Vector3.zero;
+        visualEffects.ShowStunnedEffect();
 
         yield return new WaitForSeconds(duration);
 
+        visualEffects.HideStunnedEffect();
         isStunned = false;
         animator.SetBool("IsStunned", false);
     }
