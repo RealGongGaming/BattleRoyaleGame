@@ -22359,6 +22359,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: vfx_Slash_Polearm
       objectReference: {fileID: 0}
+    - target: {fileID: 8924153038651371462, guid: f4ecaa2de8fb34046803254cc0f5c6b9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924153038651371462, guid: f4ecaa2de8fb34046803254cc0f5c6b9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8924153038651371462, guid: f4ecaa2de8fb34046803254cc0f5c6b9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 160
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -196,7 +196,7 @@ public class WeaponSelector : MonoBehaviour
                 stats.baseMoveSpeed = 5f;
                 stats.baseAttack = 12f;
                 stats.baseAttackSpeed = 0.9f;
-                stats.baseAttackRange = 2f;
+                stats.baseAttackRange = 1f;
                 stats.baseAttackLength = 1.4f;
                 stats.baseKnockback = 24f;
                 stats.baseKnockbackResist = 0.1f;
