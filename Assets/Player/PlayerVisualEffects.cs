@@ -6,7 +6,11 @@ using UnityEngine;
 public class PlayerVisualEffects : MonoBehaviour
 {
     [Header("Slash VFX")]
-    public VisualEffect slashEffect;
+    public VisualEffect hammerSlashVFX;
+    public VisualEffect swordSlashVFX;
+    public VisualEffect polearmSlashVFX;
+    public VisualEffect dualswordSlashVFX_1;
+    public VisualEffect dualswordSlashVFX_2;
 
     [Header("Weapon Selector")]
     public WeaponSelector weaponSelector;
@@ -19,20 +23,23 @@ public class PlayerVisualEffects : MonoBehaviour
 
     [Header("Dust Settings")]
     [SerializeField] private ParticleSystem dust;
-    [SerializeField] private float minMoveSpeed = 0.1f;
+    [SerializeField] private float minMoveSpeed = 1.0f;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundCheckDistance = 0.3f;
     [SerializeField] private Vector3 groundCheckOffset = new Vector3(0, 0.1f, 0);
 
     [Header("Trail Mesh Settings")]
-    public float meshRefreshRate = 0.1f;
-    public float meshDestroyDelay = 3f;
+    public float meshRefreshRate = 0.15f;
+    public float meshDestroyDelay = 1.5f;
 
     [Header("Trail Shader Settings")]
-    public Material mat; 
-    public string shaderVarRef = "_Alpha"; 
+    public Material mat;
+    public string shaderVarRef = "_Alpha";
     public float shaderVarRate = 0.1f;
     public float shaderVarRefreshRate = 0.05f;
+
+    [Header("Parry Effect")]
+    public GameObject parryRaysEffect;
 
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private float spawnTimer;
@@ -47,7 +54,7 @@ public class PlayerVisualEffects : MonoBehaviour
 
         if (dust == null) dust = GetComponentInChildren<ParticleSystem>();
         if (weaponSelector == null) weaponSelector = GetComponent<WeaponSelector>();
-        if (skinnedMeshRenderers == null) 
+        if (skinnedMeshRenderers == null)
             skinnedMeshRenderers = GetComponentsInChildren<SkinnedMeshRenderer>(true);
     }
 
@@ -58,20 +65,61 @@ public class PlayerVisualEffects : MonoBehaviour
         HandleTrail();
     }
 
-    public void PlaySlashEffect()
+    public void ShowParryEffect()
     {
-        if (slashEffect != null)
+        if (parryRaysEffect != null)
+            parryRaysEffect.SetActive(true);
+    }
+
+    public void HideParryEffect()
+    {
+        if (parryRaysEffect != null)
+            parryRaysEffect.SetActive(false);
+    }
+
+    public void PlaySlashEffect(int count)
+    {
+        if (count == 0) count = 1;
+
+        switch (weaponSelector.currentWeapon)
         {
-            slashEffect.Play();
+            case WeaponType.Hammer:
+                hammerSlashVFX.Play();
+                break;
+            case WeaponType.SwordAndShield:
+                swordSlashVFX.Play();
+                break;
+            case WeaponType.Polearm:
+                polearmSlashVFX.Play();
+                break;
+            case WeaponType.Dualsword:
+                if (count == 1)
+                {
+                    dualswordSlashVFX_1.Play();
+                }
+                else if (count == 2)
+                {
+                    dualswordSlashVFX_2.Play();
+                }
+                break;
         }
     }
 
     void CheckStatus()
     {
+        isGrounded = Physics.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, groundLayer);
         float distance = (transform.position - lastPosition).magnitude;
         currentSpeed = distance / Time.deltaTime;
-        isMoving = currentSpeed > minMoveSpeed;
-        isGrounded = Physics.Raycast(transform.position + groundCheckOffset, Vector3.down, groundCheckDistance, groundLayer);
+
+        if (isGrounded)
+        {
+            isMoving = currentSpeed > minMoveSpeed;
+        }
+        else
+        {
+            isMoving = currentSpeed > (minMoveSpeed * 0.5f);
+        }
+
         lastPosition = transform.position;
     }
 
@@ -130,9 +178,9 @@ public class PlayerVisualEffects : MonoBehaviour
 
             GameObject gObj = new GameObject("Trail_Ghost");
             Transform targetBone = skinnedMeshRenderers[i].transform;
-            
+
             gObj.transform.SetPositionAndRotation(targetBone.position, targetBone.rotation);
-            gObj.transform.localScale = Vector3.one; 
+            gObj.transform.localScale = Vector3.one;
 
             MeshRenderer mr = gObj.AddComponent<MeshRenderer>();
             MeshFilter mf = gObj.AddComponent<MeshFilter>();
@@ -143,8 +191,8 @@ public class PlayerVisualEffects : MonoBehaviour
             mf.mesh = mesh;
             mr.material = selectedMat;
 
-            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; 
-            mr.receiveShadows = false; 
+            mr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            mr.receiveShadows = false;
 
             StartCoroutine(AnimateMaterialFloat(mr.material, 0, shaderVarRate, shaderVarRefreshRate));
             Destroy(gObj, meshDestroyDelay);
@@ -153,7 +201,7 @@ public class PlayerVisualEffects : MonoBehaviour
 
     IEnumerator AnimateMaterialFloat(Material mat, float goal, float rate, float refreshRate)
     {
-        if(mat.HasProperty(shaderVarRef))
+        if (mat.HasProperty(shaderVarRef))
         {
             float valueToAnimate = mat.GetFloat(shaderVarRef);
 
