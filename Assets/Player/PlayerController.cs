@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     private bool canAttack = true;
     private bool canDodge = true;
+    private bool isAttacking = false;
     private bool isDodging = false;
     private bool isParrying = false;
     private bool isStunned = false;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour
     public float dodgeCooldown = 3f;
 
     [Header("Parry Settings")]
+    public float parryStartup = 0.2f;
     public float parryWindow = 0.4f;
     public float parryCooldown = 5f;
     public float stunDuration = 2.5f;
@@ -37,6 +39,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon Hitbox")]
     public AnimationEventReceiver eventReceiver;
+
+    [Header("Parry Effects")]
+    public PlayerVisualEffects visualEffects;
 
     void Start()
     {
@@ -108,6 +113,8 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator HitboxWindow(float finalSpeed)
     {
+        isAttacking = true;
+
         float startDelay = (stats.baseAttackLength / 4f) / finalSpeed;
         float activeTime = (stats.baseAttackLength / 4f) / finalSpeed;
 
@@ -116,6 +123,8 @@ public class PlayerController : MonoBehaviour
 
         yield return new WaitForSeconds(activeTime);
         eventReceiver.DisableHitbox();
+
+        isAttacking = false;
     }
 
     IEnumerator AttackCooldown(float finalSpeed)
@@ -140,7 +149,7 @@ public class PlayerController : MonoBehaviour
         isDodging = true;
         canDodge = false;
 
-        animator.SetFloat("DodgeSpeed", 1f/dodgeDuration);
+        animator.SetFloat("DodgeSpeed", 1f / dodgeDuration);
         animator.SetTrigger("Dodge");
 
         Vector3 dodgeDir = move.sqrMagnitude > 0.1f
@@ -176,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext context)
     {
-        if (context.performed && canParry && !isDodging && !isParrying && !isStunned && canUseParry)
+        if (context.performed && canParry && !isDodging && !isParrying && !isAttacking && !isStunned && canUseParry)
         {
             parryCoroutine = StartCoroutine(ParryRoutine());
         }
@@ -184,12 +193,20 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator ParryRoutine()
     {
-        isParrying = true;
         canParry = false;
 
+        animator.SetFloat("ParrySpeed", 0.9f / (parryWindow + parryStartup));
         animator.SetTrigger("Parry");
 
+        if (parryStartup > 0f)
+            yield return new WaitForSeconds(parryStartup);
+
+        isParrying = true;
+        visualEffects.ShowParryEffect();
+
         yield return new WaitForSeconds(parryWindow);
+
+        visualEffects.HideParryEffect();
         isParrying = false;
 
         yield return new WaitForSeconds(parryCooldown);
@@ -208,6 +225,7 @@ public class PlayerController : MonoBehaviour
         if (parryCoroutine != null)
             StopCoroutine(parryCoroutine);
 
+        visualEffects.HideParryEffect();
         isParrying = false;
         canParry = true;
 
