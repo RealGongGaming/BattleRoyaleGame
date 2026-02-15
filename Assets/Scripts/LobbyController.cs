@@ -10,6 +10,7 @@ public class LobbyController : MonoBehaviour
     public TextMeshProUGUI WeaponText;
     public WeaponSelector WeaponSelectorP;
 
+
     public void OnMove(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
@@ -28,19 +29,19 @@ public class LobbyController : MonoBehaviour
         {
             case WeaponType.Hammer:
                 WeaponSelectorP.currentWeapon = WeaponType.Polearm;
-                WeaponText.text = "Polearm";
+                WeaponText.text = "Weapon: Polearm";
                 break;
             case WeaponType.Polearm:
                 WeaponSelectorP.currentWeapon = WeaponType.SwordAndShield;
-                WeaponText.text = "Sword & Shield";
+                WeaponText.text = "Weapon: Sword & Shield";
                 break;
             case WeaponType.SwordAndShield:
                 WeaponSelectorP.currentWeapon = WeaponType.Dualsword;
-                WeaponText.text = "Dual Sword";
+                WeaponText.text = "Weapon: Dual Sword";
                 break;
             case WeaponType.Dualsword:
                 WeaponSelectorP.currentWeapon = WeaponType.Hammer;
-                WeaponText.text = "Hammer";
+                WeaponText.text = "Weapon: Hammer";
                 break;
         }
 
@@ -53,19 +54,19 @@ public class LobbyController : MonoBehaviour
         {
             case WeaponType.Hammer:
                 WeaponSelectorP.currentWeapon = WeaponType.Dualsword;
-                WeaponText.text = "Dual Sword";
+                WeaponText.text = "Weapon: Dual Sword";
                 break;
             case WeaponType.Polearm:
                 WeaponSelectorP.currentWeapon = WeaponType.Hammer;
-                WeaponText.text = "Hammer";
+                WeaponText.text = "Weapon: Hammer";
                 break;
             case WeaponType.SwordAndShield:
                 WeaponSelectorP.currentWeapon = WeaponType.Polearm;
-                WeaponText.text = "Polearm";
+                WeaponText.text = "Weapon: Polearm";
                 break;
             case WeaponType.Dualsword:
                 WeaponSelectorP.currentWeapon = WeaponType.SwordAndShield;
-                WeaponText.text = "Sword & Shield";
+                WeaponText.text = "Weapon: Sword & Shield";
                 break;
         }
 
@@ -78,16 +79,19 @@ public class LobbyController : MonoBehaviour
         if (context.performed)
         {
             isReady = !isReady;
-            if (isReady)
+
+            string playerID = gameObject.name;
+            DataManager.instance.SetPlayerReady(playerID, isReady);
+            foreach (var kvp in DataManager.instance.ReadyPlayers)
             {
-                ReadyText.text = "Ready";
-                ReadyText.color = Color.green;
+                Debug.Log($"Player: {kvp.Key} | Ready: {kvp.Value}");
             }
-            else
-            {
-                ReadyText.text = "Not Ready";
-                ReadyText.color = Color.red;
-            }
+
+
+            ReadyText.text = isReady ? "Ready" : "Not Ready";
+            ReadyText.color = isReady ? Color.green : Color.red;
         }
     }
+
+
 }
