@@ -1,36 +1,75 @@
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
+
+public enum MatchState
+{
+    Playing,
+    RoundEnd,
+    DraftPhase,
+    Resetting,
+    MatchFinished
+}
 
 public class MatchManager : MonoBehaviour
 {
+    public static MatchManager instance;
+
+    public int roundsToWin = 3; // best of five
+    public MatchState state;
+
+    private Dictionary<PlayerStats, int> wins = new();
     private PlayerStats[] players;
-    private bool matchEnded = false;
+
+    void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
         players = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
+
+        foreach (var p in players)
+            wins[p] = 0;
+
+        state = MatchState.Playing;
+        Debug.Log("MatchStart");
     }
 
     void Update()
     {
-        if (matchEnded) return;
+        if (state == MatchState.MatchFinished) return;
 
         var alivePlayers = players.Where(p => p.currentHP > 0).ToArray();
 
         if (alivePlayers.Length <= 1)
         {
-            matchEnded = true;
-            EndMatch(alivePlayers.FirstOrDefault());
+            state  = MatchState.MatchFinished;
+            EndRound(alivePlayers.FirstOrDefault());
         }
     }
 
-    void EndMatch(PlayerStats winner)
+
+    void EndRound(PlayerStats winner)
     {
         if (winner != null)
-            Debug.Log("Winner: " + winner.name);
-        else
-            Debug.Log("Draw");
+            wins[winner]++;
 
-        Time.timeScale = 0f; // pause game
+        UIManager.instance.ShowEndRound(winner, wins);
+
+        if (wins.Values.Any(w => w >= roundsToWin ) == false)
+        {
+            state = MatchState.DraftPhase;
+
+        }
+
+
+
+       
     }
+
+
+
+
 }
