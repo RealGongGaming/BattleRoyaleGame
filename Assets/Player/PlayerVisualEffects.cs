@@ -45,9 +45,17 @@ public class PlayerVisualEffects : MonoBehaviour
     private bool isGrounded;
     private float currentSpeed;
 
+    private PlayerStats playerStats;
+    private Vector3 hammerVFXOrigScale;
+    private Vector3 swordVFXOrigScale;
+    private Vector3 polearmVFXOrigScale;
+    private Vector3 dualsword1VFXOrigScale;
+    private Vector3 dualsword2VFXOrigScale;
+
     void Start()
     {
         lastPosition = transform.position;
+        playerStats = GetComponent<PlayerStats>();
 
         if (dust == null) dust = GetComponentInChildren<ParticleSystem>();
         if (weaponSelector == null) weaponSelector = GetComponent<WeaponSelector>();
@@ -62,6 +70,16 @@ public class PlayerVisualEffects : MonoBehaviour
         HandleTrail();
     }
 
+    private void ScaleVFX(VisualEffect vfx)
+    {
+        if (vfx == null || playerStats == null) return;
+        
+        if (vfx.HasFloat("AttackScale"))
+        {
+            vfx.SetFloat("AttackScale", playerStats.attackRange);
+        }
+    }
+
     public void PlaySlashEffect(int count)
     {
         if (count == 0) count = 1;
@@ -69,21 +87,29 @@ public class PlayerVisualEffects : MonoBehaviour
         switch (weaponSelector.currentWeapon)
         {
             case WeaponType.Hammer:
+                ScaleVFX(hammerSlashVFX);
                 hammerSlashVFX.Play();
                 break;
+
             case WeaponType.SwordAndShield:
+                ScaleVFX(swordSlashVFX);
                 swordSlashVFX.Play();
                 break;
+
             case WeaponType.Polearm:
+                ScaleVFX(polearmSlashVFX);
                 polearmSlashVFX.Play();
                 break;
+
             case WeaponType.Dualsword:
                 if (count == 1)
                 {
+                    ScaleVFX(dualswordSlashVFX_1);
                     dualswordSlashVFX_1.Play();
                 }
                 else if (count == 2)
                 {
+                    ScaleVFX(dualswordSlashVFX_2);
                     dualswordSlashVFX_2.Play();
                 }
                 break;
