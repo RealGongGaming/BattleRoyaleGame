@@ -100,3 +100,9 @@ InitTestScene*.unity*
 
 #Ignore Terrain imported files
 /Assets/BOKI/LowPolyNature/Terrain/data/
+Assets/UI Graphics/Rare.png.meta
+Assets/UI Graphics/Legend.png.meta
+Assets/UI Graphics/Epic.png.meta
+Assets/UI Graphics/Common.png.meta
+Assets/Scenes/Lobby2.unity.meta
+Assets/Player/Player4.meta
