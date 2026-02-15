@@ -14,7 +14,7 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public PlayerData[] players = new PlayerData[3];
+    public PlayerData[] players = new PlayerData[4];
 
     private void Awake()
     {
