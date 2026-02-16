@@ -2258,7 +2258,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1189385216164203126, guid: a13398ab0275cef4088f99c3f51b264b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1346995565009495427, guid: a13398ab0275cef4088f99c3f51b264b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2302,7 +2302,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3165670899862801222, guid: a13398ab0275cef4088f99c3f51b264b, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2678,7 +2678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HPBarUI
   PlayerSt: {fileID: 311328759}
   smoothSpeed: 8
-  hpBarContainer: {fileID: 0}
+  hpBarContainer: {fileID: 1890423005}
   Hp: {fileID: 392016683}
 --- !u!114 &1504756121
 MonoBehaviour:
