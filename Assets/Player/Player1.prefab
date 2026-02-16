@@ -1514,6 +1514,7 @@ MonoBehaviour:
   stunDuration: 2.5
   eventReceiver: {fileID: 883679780834439544}
   visualEffects: {fileID: 2956394139100520261}
+  audioManager: {fileID: 858874975964868086, guid: d8f899a66435acc40950a1ab6aa6dd5e, type: 3}
 --- !u!54 &8125854424298262982
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1679,6 +1680,12 @@ MonoBehaviour:
   paddingY: 8
   cornerRadius: 20
   cornerSegments: 8
+  visibleAlpha: 1
+  occludedAlpha: 0.35
+  alphaSpeed: 8
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &617939491012664293
 GameObject:
   m_ObjectHideFlags: 0

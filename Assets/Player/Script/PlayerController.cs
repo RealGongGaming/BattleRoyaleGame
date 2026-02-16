@@ -195,6 +195,11 @@ public class PlayerController : MonoBehaviour
     {
         canParry = false;
 
+        if (AudioManager.instance != null) 
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.parry);
+        }   
+
         animator.SetFloat("ParrySpeed", 0.9f / (parryWindow + parryStartup));
         animator.SetTrigger("Parry");
 
@@ -249,6 +254,12 @@ public class PlayerController : MonoBehaviour
     IEnumerator StunRoutine(float duration)
     {
         isStunned = true;
+
+        if (AudioManager.instance != null) 
+        {
+            AudioManager.instance.PlaySFX(AudioManager.instance.stun);
+        }
+
         animator.SetBool("IsStunned", true);
         rb.linearVelocity = Vector3.zero;
         visualEffects.ShowStunnedEffect();

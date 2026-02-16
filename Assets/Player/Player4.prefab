@@ -14,15 +14,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 749427020628511805, guid: 2368a3360feac8944b981720e603c04a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5
+      value: 0.279
       objectReference: {fileID: 0}
     - target: {fileID: 749427020628511805, guid: 2368a3360feac8944b981720e603c04a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.23068
       objectReference: {fileID: 0}
     - target: {fileID: 749427020628511805, guid: 2368a3360feac8944b981720e603c04a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -15
+      value: -3.05369
       objectReference: {fileID: 0}
     - target: {fileID: 749427020628511805, guid: 2368a3360feac8944b981720e603c04a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -72,6 +72,10 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[5].m_ActionName
       value: 'Player/StartGame[/Keyboard/enter]'
       objectReference: {fileID: 0}
+    - target: {fileID: 7784140949936595676, guid: 2368a3360feac8944b981720e603c04a, type: 3}
+      propertyPath: audioManager
+      value: 
+      objectReference: {fileID: 858874975964868086, guid: d8f899a66435acc40950a1ab6aa6dd5e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
