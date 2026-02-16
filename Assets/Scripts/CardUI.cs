@@ -6,7 +6,7 @@ public class CardUI : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private Image rarityBackground;
-    [SerializeField] private TextMeshProUGUI cardNameText;
+    [SerializeField] private TextMeshProUGUI rarityText;
     [SerializeField] private TextMeshProUGUI statTypeText;
     [SerializeField] private TextMeshProUGUI statValueText;
     [SerializeField] private Button selectButton;
@@ -36,7 +36,6 @@ public class CardUI : MonoBehaviour
 
     private void UpdateCardDisplay()
     {
-        // Set rarity background
         if (rarityBackground != null)
         {
             Sprite bgSprite = GetRarityBackground(card.rarity);
@@ -44,15 +43,13 @@ public class CardUI : MonoBehaviour
                 rarityBackground.sprite = bgSprite;
         }
 
-        // Set card name (rarity)
-        if (cardNameText != null)
-            cardNameText.text = card.rarity.ToString();
+        if (rarityText != null)
+            rarityText.text = card.rarity.ToString();
 
-        // Set stat type
+
         if (statTypeText != null)
             statTypeText.text = GetStatDisplayName(card.statType);
 
-        // Set stat value
         if (statValueText != null)
             statValueText.text = GetStatValueText();
     }
@@ -101,12 +98,12 @@ public class CardUI : MonoBehaviour
     {
         if (card.statType == StatType.KnockbackResistBonus)
         {
-            // For knockback resist (additive bonus)
+     
             return $"+{(card.statValue * 100f):F0}%";
         }
         else
         {
-            // For multipliers
+           
             float percentage = (card.statValue - 1f) * 100f;
             string sign = percentage >= 0 ? "+" : "";
             return $"{sign}{percentage:F0}%";
@@ -118,19 +115,6 @@ public class CardUI : MonoBehaviour
         onCardSelected?.Invoke(this);
     }
 
-    public Card GetCard()
-    {
-        return card;
-    }
 
-    // Optional: Add hover effects
-    public void OnPointerEnter()
-    {
-        transform.localScale = Vector3.one * 1.1f;
-    }
 
-    public void OnPointerExit()
-    {
-        transform.localScale = Vector3.one;
-    }
 }

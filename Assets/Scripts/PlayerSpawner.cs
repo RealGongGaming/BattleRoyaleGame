@@ -17,19 +17,30 @@ public class PlayerSpawner : MonoBehaviour
         foreach (WeaponSelector player in existingPlayers)
         {
             string id = player.gameObject.name;
-
             PlayerData data = DataManager.instance.players.FirstOrDefault(p => p.playerID == id);
 
             if (data == null || !data.isReady)
             {
-                
                 Destroy(player.gameObject);
+                continue;
             }
-            else
+
+            player.currentWeapon = data.weaponType;
+            player.ApplyWeapon();
+
+            PlayerStats stats = player.GetComponent<PlayerStats>();
+            if (stats != null)
             {
-             
-                player.currentWeapon = data.weaponType;
-                player.ApplyWeapon();
+                stats.hpMultiplier = data.hpMultiplier;
+                stats.moveSpeedMultiplier = data.moveSpeedMultiplier;
+                stats.attackMultiplier = data.attackMultiplier;
+                stats.attackSpeedMultiplier = data.attackSpeedMultiplier;
+                stats.attackRangeMultiplier = data.attackRangeMultiplier;
+                stats.knockbackMultiplier = data.knockbackMultiplier;
+                stats.knockbackResistBonus = data.knockbackResistBonus;
+
+
+                stats.RecalculateStats();
             }
         }
     }

@@ -13,8 +13,9 @@ public class UIManager : MonoBehaviour
     }
 
     public void ShowEndRound(PlayerStats winner,
-                             Dictionary<PlayerStats, int> scores)
+                             Dictionary<string, int> scores)
     {
+        Debug.Log("ShowingRoundEnd");
         roundEndPanel.SetActive(true);
         winnerText.text = winner ?
             winner.name + " wins the round!" :

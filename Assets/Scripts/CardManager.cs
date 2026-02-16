@@ -48,37 +48,45 @@ public class CardManager : MonoBehaviour
     {
         if (playerStats == null)
         {
-            Debug.LogError("PlayerStats not assigned!");
+            return;
+        }
+
+        
+        PlayerData data = System.Array.Find(DataManager.instance.players, p => p.playerID == playerStats.gameObject.name);
+
+        if (data == null)
+        {
             return;
         }
 
         switch (card.statType)
         {
             case StatType.HPMultiplier:
-                playerStats.hpMultiplier *= card.statValue;
+                data.hpMultiplier *= card.statValue;
                 break;
             case StatType.MoveSpeedMultiplier:
-                playerStats.moveSpeedMultiplier *= card.statValue;
+                data.moveSpeedMultiplier *= card.statValue;
                 break;
             case StatType.AttackMultiplier:
-                playerStats.attackMultiplier *= card.statValue;
+                data.attackMultiplier *= card.statValue;
                 break;
             case StatType.AttackSpeedMultiplier:
-                playerStats.attackSpeedMultiplier *= card.statValue;
+                data.attackSpeedMultiplier *= card.statValue;
                 break;
             case StatType.AttackRangeMultiplier:
-                playerStats.attackRangeMultiplier *= card.statValue;
+                data.attackRangeMultiplier *= card.statValue;
                 break;
             case StatType.KnockbackMultiplier:
-                playerStats.knockbackMultiplier *= card.statValue;
+                data.knockbackMultiplier *= card.statValue;
                 break;
             case StatType.KnockbackResistBonus:
-                playerStats.knockbackResistBonus += card.statValue;
+                data.knockbackResistBonus += card.statValue;
                 break;
         }
 
+        // Since we are reloading the scene next, we don't strictly need to update 
+        // the current player stats here, but it's good practice.
         playerStats.RecalculateStats();
-        Debug.Log($"Applied card: {card.GetCardDescription()}");
     }
 
 
