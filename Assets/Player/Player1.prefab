@@ -1673,12 +1673,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerNameTag
   playerName: Player1
   heightOffset: 2.5
+  xOffset: 0.125
   backgroundColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.8}
   fontSize: 32
   paddingX: 16
   paddingY: 8
   cornerRadius: 20
   cornerSegments: 8
+  visibleAlpha: 0.6
+  occludedAlpha: 0.25
+  alphaSpeed: 8
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &617939491012664293
 GameObject:
   m_ObjectHideFlags: 0

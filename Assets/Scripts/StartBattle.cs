@@ -22,6 +22,8 @@ public class StartBattle : MonoBehaviour
     }
     public void Play(InputAction.CallbackContext context)
     {
+        AudioManager.instance.PlayBGM(AudioManager.instance.gameBGM);
+
         if(DataManager.instance.ReadyCount() >= 2)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
