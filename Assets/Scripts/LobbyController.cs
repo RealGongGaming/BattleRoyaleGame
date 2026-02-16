@@ -7,23 +7,60 @@ public class LobbyController : MonoBehaviour
     public bool isReady = false;
     public TextMeshProUGUI ReadyText;
     public TextMeshProUGUI WeaponText;
+    public TextMeshProUGUI SkillText;
     public bool canCycleWeapon = true;
     public WeaponSelector WeaponSelectorP;
 
+    void Start()
+    {
+        switch (WeaponSelectorP.currentWeapon)
+        {
+            case WeaponType.Hammer:
+                WeaponText.text = "Weapon: Hammer";
+                break;
+            case WeaponType.Polearm:
+                WeaponText.text = "Weapon: Polearm";
+                break;
+            case WeaponType.SwordAndShield:
+                WeaponText.text = "Weapon: Sword & Shield";
+                break;
+            case WeaponType.Dualsword:
+                WeaponText.text = "Weapon: Dual Sword";
+                break;
+        }
+    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        
-        
         if (!context.performed) return;
 
         Vector2 input = context.ReadValue<Vector2>();
         if (canCycleWeapon)
         {
-            if (input.x > 0.5f)
+            if (input.x > 0.9f)
                 CycleWeaponForward();
-            else if (input.x < -0.5f)
+            else if (input.x < -0.9f)
                 CycleWeaponBackward();
+            DetectSkill();
+        }
+    }
+
+    void DetectSkill()
+    {
+        switch (WeaponSelectorP.currentWeapon)
+        {
+            case WeaponType.Hammer:
+                SkillText.text = "Skill - Parry :  F";
+                break;
+            case WeaponType.SwordAndShield:
+                SkillText.text = "Skill - Parry :  F";
+                break;
+            case WeaponType.Polearm:
+                SkillText.text = "Skill - Dash :  Lshift";
+                break;
+            case WeaponType.Dualsword:
+                SkillText.text = "Skill - Dash :  Lshift";
+                break;
         }
     }
 
@@ -48,7 +85,6 @@ public class LobbyController : MonoBehaviour
                 WeaponText.text = "Weapon: Hammer";
                 break;
         }
-
         WeaponSelectorP.ApplyWeapon();
     }
 
@@ -73,10 +109,8 @@ public class LobbyController : MonoBehaviour
                 WeaponText.text = "Weapon: Sword & Shield";
                 break;
         }
-
         WeaponSelectorP.ApplyWeapon();
     }
-
 
     public void OnJump(InputAction.CallbackContext context)
     {
