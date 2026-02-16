@@ -238,6 +238,9 @@ public class WeaponSelector : MonoBehaviour
         stats.RecalculateStats();
         stats.currentHP = stats.maxHP;
 
+        RagdollController ragdoll = GetComponent<RagdollController>();
+        if (ragdoll != null) ragdoll.RefreshBones();
+
         if (hammerModel != null)
             ScaleWeapon(hammerModel, hammerOrigScale, stats.attackRange);
 

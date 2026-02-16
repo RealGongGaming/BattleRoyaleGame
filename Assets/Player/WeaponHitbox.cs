@@ -45,11 +45,29 @@ public class WeaponHitbox : MonoBehaviour
         if (enemyController != null)
         {
             GameObject rootObj = other.transform.root.gameObject;
-            if (alreadyHit.Contains(rootObj)) return;
-            alreadyHit.Add(rootObj);
+            PlayerStats enemyStats = rootObj.GetComponent<PlayerStats>();
 
-            Vector3 knockbackDir = (rootObj.transform.position - owner.transform.position).normalized;
-            enemyController.ReceiveAttack(ownerStats.attack, knockbackDir, ownerStats.knockback, owner);
+            if (enemyStats != null && enemyStats.IsDead())
+            {
+                if (alreadyHit.Contains(rootObj)) return;
+                alreadyHit.Add(rootObj);
+
+                Vector3 knockbackDir = (rootObj.transform.position - owner.transform.position).normalized;
+                float deadKnockbackMultiplier = 0.1f;
+                Rigidbody[] bones = rootObj.GetComponentsInChildren<Rigidbody>();
+                foreach (Rigidbody boneRb in bones)
+                {
+                    boneRb.AddForce(knockbackDir * ownerStats.knockback * deadKnockbackMultiplier, ForceMode.Impulse);
+                }
+            }
+            else
+            {
+                if (alreadyHit.Contains(rootObj)) return;
+                alreadyHit.Add(rootObj);
+
+                Vector3 knockbackDir = (rootObj.transform.position - owner.transform.position).normalized;
+                enemyController.ReceiveAttack(ownerStats.attack, knockbackDir, ownerStats.knockback, owner);
+            }
         }
         else
         {

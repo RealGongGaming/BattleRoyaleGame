@@ -36,6 +36,7 @@ public class PlayerStats : MonoBehaviour
     public float knockbackResist;
 
     private bool isDead = false;
+    public bool IsDead() => isDead;
 
     void Start()
     {
@@ -69,37 +70,32 @@ public class PlayerStats : MonoBehaviour
         if (isDead) return;
 
         currentHP -= damage;
-        currentHP = Mathf.Max(currentHP, 0);
 
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("GetHit");
 
         float actualKnockback = knockbackForce * (1f - Mathf.Clamp01(knockbackResist));
-
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
             rb.AddForce(knockbackDir.normalized * actualKnockback, ForceMode.Impulse);
 
         if (currentHP <= 0)
-            Die();
+            Die(knockbackDir.normalized * actualKnockback);
     }
 
-    void Die()
+    void Die(Vector3 deathForce = default)
     {
         isDead = true;
 
-        Animator animator = GetComponent<Animator>();
-        animator.SetTrigger("Die");
+        PlayerVisualEffects vfx = GetComponent<PlayerVisualEffects>();
+        if (vfx != null) vfx.DisableEffectsOnDeath();
+
+        RagdollController ragdoll = GetComponent<RagdollController>();
+        if (ragdoll != null)
+            ragdoll.EnableRagdollWithForce(deathForce * 2f);
 
         PlayerController controller = GetComponent<PlayerController>();
         if (controller != null)
             controller.enabled = false;
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
     }
 }

@@ -50,6 +50,7 @@ public class PlayerVisualEffects : MonoBehaviour
     private bool isMoving;
     private bool isGrounded;
     private float currentSpeed;
+    private bool isDead = false;
 
     private PlayerStats playerStats;
     private Vector3 hammerVFXOrigScale;
@@ -71,6 +72,8 @@ public class PlayerVisualEffects : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return;
+
         CheckStatus();
         HandleDust();
         HandleTrail();
@@ -253,5 +256,14 @@ public class PlayerVisualEffects : MonoBehaviour
                 yield return new WaitForSeconds(refreshRate);
             }
         }
+    }
+
+    public void DisableEffectsOnDeath()
+    {
+        isDead = true;
+        if (dust != null && dust.isPlaying) dust.Stop();
+        isMoving = false;
+        HideParryEffect();
+        HideStunnedEffect();
     }
 }

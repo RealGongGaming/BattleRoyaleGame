@@ -1061,6 +1061,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3317909099572531743, guid: 2368a3360feac8944b981720e603c04a, type: 3}
+      propertyPath: 'm_CapsuleColliders.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650075559768319305, guid: 2368a3360feac8944b981720e603c04a, type: 3}
+      propertyPath: 'm_CapsuleColliders.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
