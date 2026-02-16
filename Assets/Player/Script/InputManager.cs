@@ -34,23 +34,22 @@ public class InputManager : MonoBehaviour
 
         var gamepads = Gamepad.all;
 
-        InputDevice keyboard = Keyboard.current;
         InputDevice g1 = gamepads.Count > 0 ? gamepads[0] : null;
         InputDevice g2 = gamepads.Count > 1 ? gamepads[1] : null;
 
         if (player1 != null)
         {
-            SetupPlayer(p1Map, player1, keyboard);
+            SetupPlayer(p1Map, player1, Keyboard.current, Mouse.current);
             SetupPlayer(p2Map, player2, g1);
             SetupPlayer(p3Map, player3, g2);
-            SetupPlayer(p4Map, player4, keyboard);
+            SetupPlayer(p4Map, player4, Keyboard.current);
         }
         else
         {
-            SetupPlayer(p1Map, lobbyPlayer1, keyboard);
+            SetupPlayer(p1Map, lobbyPlayer1, Keyboard.current);
             SetupPlayer(p2Map, lobbyPlayer2, g1);
             SetupPlayer(p3Map, lobbyPlayer3, g2);
-            SetupPlayer(p4Map, lobbyPlayer4, keyboard);
+            SetupPlayer(p4Map, lobbyPlayer4, Keyboard.current);
 
             SetupUI(UIMap, startBattle);
         }
@@ -74,17 +73,19 @@ public class InputManager : MonoBehaviour
     }
 
     // PlayerController
-    void SetupPlayer(InputActionMap map, PlayerController player, InputDevice device)
+    void SetupPlayer(InputActionMap map, PlayerController player, params InputDevice[] devices)
     {
         if (map == null || player == null) return;
-        if (device != null)
-        {
-            map.devices = new[] { device };
-        }
-        else
+
+        var validDevices = System.Array.FindAll(devices, d => d != null);
+
+        if (validDevices.Length == 0)
         {
             map.devices = new InputDevice[] { };
+            return;
         }
+
+        map.devices = validDevices;
 
         map.FindAction("Move").performed += player.OnMove;
         map.FindAction("Move").canceled += player.OnMove;
