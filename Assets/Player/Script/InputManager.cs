@@ -11,6 +11,10 @@ public class InputManager : MonoBehaviour
     public PlayerController player2;
     public PlayerController player3;
     public PlayerController player4;
+    public LobbyController LobbyPlayer1;
+    public LobbyController LobbyPlayer2;
+    public LobbyController LobbyPlayer3;
+    public LobbyController LobbyPlayer4;
 
     private InputActionMap p1Map, p2Map, p3Map, p4Map;
 
@@ -44,6 +48,23 @@ public class InputManager : MonoBehaviour
         map.FindAction("Parry").performed += player.OnParry;
         map.FindAction("Dodge").performed += player.OnDodge;
         map.Enable();
+    }
+
+
+    void SetupLobbyPlayer(InputActionMap map,LobbyController lobbyplayer, InputDevice device)
+    {
+        if (map  == null || lobbyplayer == null) return;
+
+        if(device != null)
+        {
+            map.devices = new[] { device };
+        }
+
+        map.FindAction("Move").performed += lobbyplayer.OnMove;
+        map.FindAction("Move").canceled += lobbyplayer.OnMove;
+        map.FindAction("Jump").performed += lobbyplayer.OnJump;
+        map.Enable();
+
     }
 
     void OnDestroy()
