@@ -1514,7 +1514,6 @@ MonoBehaviour:
   stunDuration: 2.5
   eventReceiver: {fileID: 883679780834439544}
   visualEffects: {fileID: 2956394139100520261}
-  audioManager: {fileID: 858874975964868086, guid: d8f899a66435acc40950a1ab6aa6dd5e, type: 3}
 --- !u!54 &8125854424298262982
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1674,6 +1673,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerNameTag
   playerName: Player1
   heightOffset: 2.5
+  xOffset: 0.1
   backgroundColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.8}
   fontSize: 32
   paddingX: 16

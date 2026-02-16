@@ -7,6 +7,7 @@ public class PlayerNameTag : MonoBehaviour
     [Header("Settings")]
     public string playerName = "Player";
     public float heightOffset = 2.5f;
+    public float xOffset = 0f;
 
     [Header("Style")]
     public Color backgroundColor = new Color(0.3f, 0.3f, 0.3f, 0.8f);
@@ -51,7 +52,7 @@ public class PlayerNameTag : MonoBehaviour
     {
         GameObject canvasObj = new GameObject("NameTagCanvas");
         canvasObj.transform.SetParent(transform);
-        canvasObj.transform.localPosition = new Vector3(0, heightOffset, 0);
+        canvasObj.transform.localPosition = new Vector3(xOffset, heightOffset, 0);
 
         Canvas canvas = canvasObj.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.WorldSpace;
