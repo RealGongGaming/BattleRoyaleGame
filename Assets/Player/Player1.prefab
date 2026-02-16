@@ -1400,6 +1400,7 @@ GameObject:
   - component: {fileID: 3245879199206647593}
   - component: {fileID: 883679780834439544}
   - component: {fileID: 7250080607893205038}
+  - component: {fileID: 3009243811556514410}
   m_Layer: 0
   m_Name: Player1
   m_TagString: Untagged
@@ -1658,6 +1659,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c2c59f147c93d448610a982ca5d504, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RagdollController
+--- !u!114 &3009243811556514410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600818502321775560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64eb7e2ecd5de464484cd6a83bdccd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerNameTag
+  playerName: Player1
+  heightOffset: 2.5
+  backgroundColor: {r: 0.3, g: 0.3, b: 0.3, a: 0.8}
+  fontSize: 32
+  paddingX: 16
+  paddingY: 8
+  cornerRadius: 20
+  cornerSegments: 8
 --- !u!1 &617939491012664293
 GameObject:
   m_ObjectHideFlags: 0
