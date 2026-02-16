@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class StartBattle : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class StartBattle : MonoBehaviour
             StartText.color = Color.orange;
         }
     }
-    public void Play()
+    public void Play(InputAction.CallbackContext context)
     {
         if(DataManager.instance.ReadyCount() >= 2)
         {
