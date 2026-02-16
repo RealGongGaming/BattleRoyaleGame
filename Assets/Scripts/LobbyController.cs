@@ -32,15 +32,29 @@ public class LobbyController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        Vector2 input = context.ReadValue<Vector2>();
+
+        if (context.canceled || (input.x < 0.6f && input.x > -0.6f))
+        {
+            canCycleWeapon = true;
+            return;
+        }
+
         if (!context.performed) return;
 
-        Vector2 input = context.ReadValue<Vector2>();
-        if (canCycleWeapon)
+        if (canCycleWeapon && !isReady)
         {
-            if (input.x > 0.9f)
+            if (input.x >= 0.6f)
+            {
                 CycleWeaponForward();
-            else if (input.x < -0.9f)
+                canCycleWeapon = false;
+            }
+            else if (input.x <= -0.6f)
+            {
                 CycleWeaponBackward();
+                canCycleWeapon = false;
+            }
+
             DetectSkill();
         }
     }
