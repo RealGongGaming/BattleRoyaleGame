@@ -41,6 +41,9 @@ public class PlayerVisualEffects : MonoBehaviour
     [Header("Parry Effect")]
     public GameObject parryRaysEffect;
 
+    [Header("Stun Effect")]
+    public GameObject stunnedEffect;
+
     private SkinnedMeshRenderer[] skinnedMeshRenderers;
     private float spawnTimer;
     private Vector3 lastPosition;
@@ -93,6 +96,18 @@ public class PlayerVisualEffects : MonoBehaviour
     {
         if (parryRaysEffect != null)
             parryRaysEffect.SetActive(false);
+    }
+
+    public void ShowStunnedEffect()
+    {
+        if (stunnedEffect != null)
+            stunnedEffect.SetActive(true);
+    }
+
+    public void HideStunnedEffect()
+    {
+        if (stunnedEffect != null)
+            stunnedEffect.SetActive(false);
     }
 
     public void PlaySlashEffect(int count)
