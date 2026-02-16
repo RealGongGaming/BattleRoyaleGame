@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.performed && canAttack && !isDodging && !isParrying && !isStunned)
+        if (context.performed && canAttack && !isDodging && !isParrying && !isStunned && !stats.IsDead())
         {
             float finalSpeed = stats.attackSpeed;
 
@@ -138,7 +138,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext context)
     {
-        if (context.performed && canDodge && !isDodging && !isStunned && canUseDodge)
+        if (context.performed && canDodge && !isDodging && !isStunned && canUseDodge && !stats.IsDead())
         {
             StartCoroutine(DodgeRoutine());
         }
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext context)
     {
-        if (context.performed && canParry && !isDodging && !isParrying && !isAttacking && !isStunned && canUseParry)
+        if (context.performed && canParry && !isDodging && !isParrying && !isAttacking && !isStunned && canUseParry && !stats.IsDead())
         {
             parryCoroutine = StartCoroutine(ParryRoutine());
         }
@@ -264,7 +264,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && isGrounded && !isStunned)
+        if (context.performed && isGrounded && !isStunned && !stats.IsDead())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
