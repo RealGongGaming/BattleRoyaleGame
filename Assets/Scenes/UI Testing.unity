@@ -560,12 +560,12 @@ GameObject:
   m_Component:
   - component: {fileID: 427427504}
   m_Layer: 5
-  m_Name: P2
+  m_Name: P4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &427427504
 RectTransform:
   m_ObjectHideFlags: 0
@@ -583,7 +583,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 440, y: -248.00043}
+  m_AnchoredPosition: {x: 440, y: -248.00049}
   m_SizeDelta: {x: -957.19995, y: -665.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &431243053
@@ -824,7 +824,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -416, y: -248}
+  m_AnchoredPosition: {x: -416, y: -248.00006}
   m_SizeDelta: {x: -957.19995, y: -665.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &642958451
