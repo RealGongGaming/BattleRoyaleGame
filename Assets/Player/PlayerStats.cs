@@ -70,6 +70,7 @@ public class PlayerStats : MonoBehaviour
         if (isDead) return;
 
         currentHP -= damage;
+        currentHP = Mathf.Max(currentHP, 0);
 
         Animator animator = GetComponent<Animator>();
         animator.SetTrigger("GetHit");
