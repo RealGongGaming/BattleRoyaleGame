@@ -88,6 +88,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Dodge1",
+                    "type": "Button",
+                    "id": "99c025a2-2637-4d95-a1e7-77478515a493",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "StartGame",
                     "type": "Button",
                     "id": "2644eddf-6714-44e3-a62b-4cedabaf2770",
@@ -277,11 +286,22 @@
                 {
                     "name": "",
                     "id": "2417bc72-c9cd-41ef-846b-5f159c56ccdc",
-                    "path": "<Keyboard>/leftShift",
+                    "path": "<Keyboard>/rightShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44c541f7-6990-4638-8269-c95e3324392a",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Dodge1",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

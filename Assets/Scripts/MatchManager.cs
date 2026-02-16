@@ -45,7 +45,7 @@ public class MatchManager : MonoBehaviour
 
         if (alivePlayers.Length <= 1)
         {
-            state  = MatchState.MatchFinished;
+            state  = MatchState.RoundEnd;
             EndRound(alivePlayers.FirstOrDefault());
         }
     }
@@ -64,9 +64,6 @@ public class MatchManager : MonoBehaviour
 
         }
 
-
-
-       
     }
 
 
