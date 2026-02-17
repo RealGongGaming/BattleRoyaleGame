@@ -41,11 +41,13 @@ public class UIManager : MonoBehaviour
         {
             winnerText.text = matchWinner.Key + " Wins The Match!";
             backToTitleButton.SetActive(true);
+            AudioManager.instance.PlaySFX(AudioManager.instance.overall_victory);
         }
         else
         {
             
             winnerText.text = winner.name + "'s Round Victory!";
+            AudioManager.instance.PlaySFX(AudioManager.instance.round_victory);
         }
 
 
