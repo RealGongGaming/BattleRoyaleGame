@@ -12,6 +12,8 @@ public class AnimationEventReceiver : MonoBehaviour
     private WeaponHitbox activeHitbox1;
     private WeaponHitbox activeHitbox2;
 
+    bool isRightHand = true;
+
     public void SetActiveWeapon(WeaponType weapon)
     {
         activeHitbox1 = null;
@@ -37,13 +39,45 @@ public class AnimationEventReceiver : MonoBehaviour
 
     public void EnableHitbox()
     {
-        if (activeHitbox1 != null) activeHitbox1.EnableHitbox();
-        if (activeHitbox2 != null) activeHitbox2.EnableHitbox();
+        if (activeHitbox2 != null)
+        {
+            if (isRightHand)
+            {
+                activeHitbox1.DisableHitbox();
+                activeHitbox2.EnableHitbox();
+                isRightHand = false;
+            }
+            else
+            {
+                activeHitbox1.EnableHitbox();
+                activeHitbox2.DisableHitbox();
+                isRightHand = true;
+            }
+        }
+        else
+        {
+            activeHitbox1.EnableHitbox();
+        }
     }
 
     public void DisableHitbox()
     {
-        if (activeHitbox1 != null) activeHitbox1.DisableHitbox();
-        if (activeHitbox2 != null) activeHitbox2.DisableHitbox();
+        if (activeHitbox2 != null)
+        {
+            if (isRightHand)
+            {
+                activeHitbox1.DisableHitbox();
+                activeHitbox2.DisableHitbox();
+            }
+            else
+            {
+                activeHitbox1.DisableHitbox();
+                activeHitbox2.DisableHitbox();
+            }
+        }
+        else
+        {
+            activeHitbox1.DisableHitbox();
+        }
     }
 }
