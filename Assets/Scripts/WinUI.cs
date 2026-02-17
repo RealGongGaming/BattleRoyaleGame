@@ -20,14 +20,14 @@ public class UIManager : MonoBehaviour
     public void ShowEndRound(PlayerStats winner,
                              Dictionary<string, int> scores)
     {
-        Debug.Log("ShowingRoundEnd");
+      
 
         var tags = FindObjectsByType<PlayerNameTag>(FindObjectsSortMode.None);
 
 
         foreach (var tag in tags)
         {
-            Debug.Log($"{tag.gameObject}");
+        
             tag.visibleAlpha = 0;
             tag.occludedAlpha = 0;
         }
@@ -57,7 +57,8 @@ public class UIManager : MonoBehaviour
 
     public void ReturnToTitle()
     {
-        Destroy(DataManager.instance.gameObject);  
+        Destroy(DataManager.instance.gameObject);
+        Destroy(AudioManager.instance.gameObject);
         SceneManager.LoadScene(0);
     }
 }
