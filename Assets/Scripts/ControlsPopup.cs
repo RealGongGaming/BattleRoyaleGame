@@ -7,12 +7,6 @@ public class ControlsPopup : MonoBehaviour
     [Header("Popup")]
     public GameObject popupPanel;
 
-    void Start()
-    {
-        if (popupPanel != null)
-            popupPanel.SetActive(false);
-    }
-
     public void TogglePopup()
     {
         if (popupPanel == null) return;
