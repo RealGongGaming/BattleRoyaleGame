@@ -5,30 +5,9 @@ using TMPro;
 public class LobbyController : MonoBehaviour
 {
     public bool isReady = false;
-    public TextMeshProUGUI ReadyText;
-    public TextMeshProUGUI WeaponText;
-    public TextMeshProUGUI SkillText;
     public bool canCycleWeapon = true;
+    public TextMeshProUGUI ReadyText;
     public WeaponSelector WeaponSelectorP;
-
-    void Start()
-    {
-        switch (WeaponSelectorP.currentWeapon)
-        {
-            case WeaponType.Hammer:
-                WeaponText.text = "Weapon: Hammer";
-                break;
-            case WeaponType.Polearm:
-                WeaponText.text = "Weapon: Polearm";
-                break;
-            case WeaponType.SwordAndShield:
-                WeaponText.text = "Weapon: Sword & Shield";
-                break;
-            case WeaponType.Dualsword:
-                WeaponText.text = "Weapon: Dual Sword";
-                break;
-        }
-    }
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -36,8 +15,11 @@ public class LobbyController : MonoBehaviour
 
         if (context.canceled || (input.x < 0.6f && input.x > -0.6f))
         {
-            canCycleWeapon = true;
-            return;
+            if (!isReady)
+            {
+                canCycleWeapon = true;
+                return;
+            }
         }
 
         if (!context.performed) return;
@@ -54,27 +36,6 @@ public class LobbyController : MonoBehaviour
                 CycleWeaponBackward();
                 canCycleWeapon = false;
             }
-
-            DetectSkill();
-        }
-    }
-
-    void DetectSkill()
-    {
-        switch (WeaponSelectorP.currentWeapon)
-        {
-            case WeaponType.Hammer:
-                SkillText.text = "Skill - Parry :  F";
-                break;
-            case WeaponType.SwordAndShield:
-                SkillText.text = "Skill - Parry :  F";
-                break;
-            case WeaponType.Polearm:
-                SkillText.text = "Skill - Dash :  Lshift";
-                break;
-            case WeaponType.Dualsword:
-                SkillText.text = "Skill - Dash :  Lshift";
-                break;
         }
     }
 
@@ -84,19 +45,15 @@ public class LobbyController : MonoBehaviour
         {
             case WeaponType.Hammer:
                 WeaponSelectorP.currentWeapon = WeaponType.Polearm;
-                WeaponText.text = "Weapon: Polearm";
                 break;
             case WeaponType.Polearm:
                 WeaponSelectorP.currentWeapon = WeaponType.SwordAndShield;
-                WeaponText.text = "Weapon: Sword & Shield";
                 break;
             case WeaponType.SwordAndShield:
                 WeaponSelectorP.currentWeapon = WeaponType.Dualsword;
-                WeaponText.text = "Weapon: Dual Sword";
                 break;
             case WeaponType.Dualsword:
                 WeaponSelectorP.currentWeapon = WeaponType.Hammer;
-                WeaponText.text = "Weapon: Hammer";
                 break;
         }
         WeaponSelectorP.ApplyWeapon();
@@ -108,19 +65,15 @@ public class LobbyController : MonoBehaviour
         {
             case WeaponType.Hammer:
                 WeaponSelectorP.currentWeapon = WeaponType.Dualsword;
-                WeaponText.text = "Weapon: Dual Sword";
                 break;
             case WeaponType.Polearm:
                 WeaponSelectorP.currentWeapon = WeaponType.Hammer;
-                WeaponText.text = "Weapon: Hammer";
                 break;
             case WeaponType.SwordAndShield:
                 WeaponSelectorP.currentWeapon = WeaponType.Polearm;
-                WeaponText.text = "Weapon: Polearm";
                 break;
             case WeaponType.Dualsword:
                 WeaponSelectorP.currentWeapon = WeaponType.SwordAndShield;
-                WeaponText.text = "Weapon: Sword & Shield";
                 break;
         }
         WeaponSelectorP.ApplyWeapon();
@@ -144,6 +97,4 @@ public class LobbyController : MonoBehaviour
         ReadyText.text = isReady ? "Ready" : "Not Ready";
         ReadyText.color = isReady ? Color.green : Color.red;
     }
-
-
 }
