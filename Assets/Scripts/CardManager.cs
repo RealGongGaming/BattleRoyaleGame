@@ -4,61 +4,76 @@ using System.Linq;
 
 public class CardManager : MonoBehaviour
 {
-    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private CardGenerator cardGenerator;
-    [SerializeField] private int numberOfCardsToGenerate ;
 
     private List<Card> currentCards = new List<Card>();
+    private Queue<string> draftingQueue = new Queue<string>();
+    private string currentPickerID;
 
     void Start()
     {
         if (cardGenerator == null)
             cardGenerator = GetComponent<CardGenerator>();
-
-        if (playerStats == null)
-            playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
-    public List<Card> GenerateCardChoices()
+    // This is called by MatchManager to start the whole process
+    public void StartDrafting(List<string> order)
     {
-        int activePlayers = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None).Count();
+        // 1. Set up the queue (Winner first, then losers)
+        draftingQueue = new Queue<string>(order);
 
-        int cardsToGenerate = activePlayers + 2;
-
+        // 2. Generate a pool of cards (Total players + 1 so the last person has a choice)
+        int cardsToGenerate = order.Count + 1;
         currentCards = cardGenerator.GenerateMultipleCards(cardsToGenerate);
 
-        return currentCards;
+        // 3. Start the first person's turn
+        MoveToNextPicker();
+    }
+
+    private void MoveToNextPicker()
+    {
+        if (draftingQueue.Count > 0)
+        {
+            // Get the next person in line
+            currentPickerID = draftingQueue.Dequeue();
+
+            // Tell UI to refresh the buttons and show the current picker's name
+            CardUIManager ui = FindFirstObjectByType<CardUIManager>();
+            if (ui != null)
+            {
+                ui.DisplayCards(currentCards, currentPickerID);
+            }
+        }
+        else
+        {
+            // Everyone has picked! NOW we reload the scene
+            MatchManager.instance.StartNextRound();
+        }
     }
 
     public void ApplyCard(int cardIndex)
     {
-        if (cardIndex < 0 || cardIndex >= currentCards.Count)
-        {
-            Debug.LogError("Invalid card index!");
-            return;
-        }
+        if (cardIndex < 0 || cardIndex >= currentCards.Count) return;
 
         Card selectedCard = currentCards[cardIndex];
-        ApplyCardToPlayer(selectedCard);
 
-        currentCards.Clear();
+        // 1. Find the data for the person currently picking
+        PlayerData data = System.Array.Find(DataManager.instance.players, p => p.playerID == currentPickerID);
+
+        if (data != null)
+        {
+            ApplyStatsToData(data, selectedCard);
+        }
+
+        // 2. Remove the chosen card so the next person cannot pick it
+        currentCards.RemoveAt(cardIndex);
+
+        // 3. Move to the next person in the queue
+        MoveToNextPicker();
     }
 
-    private void ApplyCardToPlayer(Card card)
+    private void ApplyStatsToData(PlayerData data, Card card)
     {
-        if (playerStats == null)
-        {
-            return;
-        }
-
-        
-        PlayerData data = System.Array.Find(DataManager.instance.players, p => p.playerID == playerStats.gameObject.name);
-
-        if (data == null)
-        {
-            return;
-        }
-
         switch (card.statType)
         {
             case StatType.HPMultiplier:
@@ -83,11 +98,5 @@ public class CardManager : MonoBehaviour
                 data.knockbackResistBonus += card.statValue;
                 break;
         }
-
-        // Since we are reloading the scene next, we don't strictly need to update 
-        // the current player stats here, but it's good practice.
-        playerStats.RecalculateStats();
     }
-
-
 }

@@ -7,6 +7,7 @@ public class CardUIManager : MonoBehaviour
     [SerializeField] private GameObject cardPanel;
     [SerializeField] private Transform cardContainer;
     [SerializeField] private GameObject cardUIPrefab;
+    public TMPro.TextMeshProUGUI turnText; // Now being used!
 
     [SerializeField] private CardManager cardManager;
 
@@ -18,17 +19,20 @@ public class CardUIManager : MonoBehaviour
         HideCardPanel();
     }
 
-    public void ShowCardSelection()
-    {
-        List<Card> cards = cardManager.GenerateCardChoices();
-        DisplayCards(cards);
-    }
-
-    private void DisplayCards(List<Card> cards)
+    
+    public void DisplayCards(List<Card> cards, string playerName)
     {
         ClearCards();
+
         if (cardPanel != null) cardPanel.SetActive(true);
 
+        
+        if (turnText != null)
+        {
+            turnText.text = $"{playerName}'s Turn to Pick!";
+        }
+
+        // Spawn buttons for the current pool of cards
         foreach (Card card in cards)
         {
             GameObject cardObj = Instantiate(cardUIPrefab, cardContainer);
@@ -40,23 +44,26 @@ public class CardUIManager : MonoBehaviour
             }
         }
 
-        Time.timeScale = 0f; 
+        // Pause the game while picking
+        Time.timeScale = 0f;
     }
 
     private void OnCardSelected(CardUI selectedCardUI)
     {
         int cardIndex = activeCardUIs.IndexOf(selectedCardUI);
+
         if (cardIndex >= 0)
         {
+            // 1. Tell CardManager to apply the stats and move to the next person
             cardManager.ApplyCard(cardIndex);
-            HideCardPanel();
 
-            Time.timeScale = 1f; 
-            MatchManager.instance.StartNextRound(); 
+            // 2. We ONLY resume time and hide the panel if the queue is actually empty.
+            // CardManager will trigger the scene reload, so we don't call StartNextRound here!
+            Time.timeScale = 1f;
         }
     }
 
-    private void HideCardPanel()
+    public void HideCardPanel()
     {
         if (cardPanel != null) cardPanel.SetActive(false);
         ClearCards();

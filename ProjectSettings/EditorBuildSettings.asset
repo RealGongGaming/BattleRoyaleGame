@@ -11,15 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Map01_lobby.unity
     guid: 3da277c32d0f7e04db0806c07d40bb29
-  - enabled: 0
-    path: Assets/Scenes/Lobby2.unity
-    guid: 195d945a04a86a142a0eafb6a55abf98
   - enabled: 1
-    path: Assets/Scenes/CardTest.unity
-    guid: ab12da07d3139e04486153e8ee3de1f8
-  - enabled: 1
-    path: Assets/Scenes/UI Testing.unity
-    guid: dd3c087cddce6ea4a9ce92bb6a4cc529
+    path: Assets/Scenes/MergedUI.unity
+    guid: 5a45a42f51f12b348b9e58ce92b44893
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 3d2a8fd969a5c0247bf751ac5213453d, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
