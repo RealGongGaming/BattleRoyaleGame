@@ -51,24 +51,10 @@ public class DataManager : MonoBehaviour
                 players[i].isReady = ready;
                 players[i].weaponType = weapon;
 
-                PrintAllPlayers(); 
                 return;
             }
         }
 
-        PrintAllPlayers(); 
-    }
-    //for debug
-    private void PrintAllPlayers()
-    {
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (players[i] == null) continue;
-
-            Debug.Log(
-                $"Slot {i} | ID: {players[i].playerID} | Ready: {players[i].isReady} | Weapon: {players[i].weaponType}"
-            );
-        }
     }
 
 

@@ -7304,6 +7304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MatchManager
   roundsToWin: 3
   state: 0
+  roundEndPanel: {fileID: 1471020498}
 --- !u!114 &1828373015
 MonoBehaviour:
   m_ObjectHideFlags: 0

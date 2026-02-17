@@ -23,6 +23,7 @@ public class MatchManager : MonoBehaviour
     private Dictionary<string, int> playerWins = new();
     private PlayerStats[] players;
     private List<string> pickOrder = new();
+    public GameObject roundEndPanel;
 
     void Awake() => instance = this;
 
@@ -46,7 +47,6 @@ public class MatchManager : MonoBehaviour
 
         var alivePlayers = players.Where(p => p != null && p.currentHP > 0).ToArray();
 
-        Debug.Log("playing: alive " + alivePlayers.Length);
 
         if (alivePlayers.Length <= 1)
         {
@@ -82,17 +82,23 @@ public class MatchManager : MonoBehaviour
 
     private IEnumerator RoundEndSequence(PlayerStats winner)
     {
-        
+        yield return new WaitForSeconds(2f);
+
         if (UIManager.instance != null)
             UIManager.instance.ShowEndRound(winner, playerWins);
 
      
         yield return new WaitForSeconds(2f);
 
+       
+
+        
+
 
         if (playerWins.Values.Any(w => w >= roundsToWin) == false)
         {
             state = MatchState.DraftPhase;
+            roundEndPanel.SetActive(false);
 
             List<string> pickOrder = new List<string>();
 
@@ -122,7 +128,6 @@ public class MatchManager : MonoBehaviour
         else
         {
             state = MatchState.MatchFinished;
-            Debug.Log("Match Over! Final winner determined.");
 
         }
     }
