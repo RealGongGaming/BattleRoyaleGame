@@ -49,12 +49,12 @@ public class WeaponSelector : MonoBehaviour
     private void SaveOriginalScales()
     {
         if (origScalesSaved) return;
-        if (hammerModel != null) hammerOrigScale = hammerModel.transform.localScale;
-        if (swordModel != null) swordOrigScale = swordModel.transform.localScale;
-        if (shieldModel != null) shieldOrigScale = shieldModel.transform.localScale;
-        if (polearmModel != null) polearmOrigScale = polearmModel.transform.localScale;
-        if (dualsword1Model != null) dualsword1OrigScale = dualsword1Model.transform.localScale;
-        if (dualsword2Model != null) dualsword2OrigScale = dualsword2Model.transform.localScale;
+        if (hammerModel != null) hammerOrigScale = new Vector3(230, 260, 230);
+        if (swordModel != null) swordOrigScale = new Vector3(100, 100, 100);
+        if (shieldModel != null) shieldOrigScale = new Vector3(100, 100, 100);
+        if (polearmModel != null) polearmOrigScale = new Vector3(120, 150, 120);
+        if (dualsword1Model != null) dualsword1OrigScale = new Vector3(75, 75, 75);
+        if (dualsword2Model != null) dualsword2OrigScale = new Vector3(75, 75, 75);
         origScalesSaved = true;
     }
 

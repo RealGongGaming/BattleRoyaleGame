@@ -15,8 +15,11 @@ public class LobbyController : MonoBehaviour
 
         if (context.canceled || (input.x < 0.6f && input.x > -0.6f))
         {
-            canCycleWeapon = true;
-            return;
+            if (!isReady)
+            {
+                canCycleWeapon = true;
+                return;
+            }
         }
 
         if (!context.performed) return;
