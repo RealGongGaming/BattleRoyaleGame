@@ -76,36 +76,33 @@ public class MatchManager : MonoBehaviour
             if (p != winner) pickOrder.Add(p.gameObject.name);
         }
 
-        // Start the timed sequence
+    
         StartCoroutine(RoundEndSequence(winner));
     }
 
     private IEnumerator RoundEndSequence(PlayerStats winner)
     {
-        // 1. Show the "Winner" UI (Round results)
+        
         if (UIManager.instance != null)
             UIManager.instance.ShowEndRound(winner, playerWins);
 
-        // 2. WAIT for 2 seconds so players can see who won
+     
         yield return new WaitForSeconds(2f);
 
-        // 3. Check if anyone has won the whole match yet
+
         if (playerWins.Values.Any(w => w >= roundsToWin) == false)
         {
             state = MatchState.DraftPhase;
 
-            // 4. Create the Pick Order List
             List<string> pickOrder = new List<string>();
 
-            // Winner always picks first
+            
             if (winner != null)
             {
                 pickOrder.Add(winner.gameObject.name);
             }
 
-            // Add all other players (the losers) to the list
-            // Note: You can sort 'players' by death time if you track that, 
-            // but this adds all remaining players to the queue.
+
             foreach (var p in players)
             {
                 if (p != winner)
@@ -114,12 +111,11 @@ public class MatchManager : MonoBehaviour
                 }
             }
 
-            // 5. Tell CardManager to start the sequence
+
             CardManager cardManager = FindFirstObjectByType<CardManager>();
             if (cardManager != null)
             {
-                // We pass the list of names to the CardManager 
-                // so it knows who picks in what order.
+
                 cardManager.StartDrafting(pickOrder);
             }
         }
@@ -127,7 +123,7 @@ public class MatchManager : MonoBehaviour
         {
             state = MatchState.MatchFinished;
             Debug.Log("Match Over! Final winner determined.");
-            // Logic for returning to Main Menu or showing Final Stats goes here
+
         }
     }
 

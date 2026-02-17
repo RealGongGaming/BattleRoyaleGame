@@ -17,8 +17,7 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("ShowingRoundEnd");
         roundEndPanel.SetActive(true);
-        winnerText.text = winner ?
-            winner.name + " wins the round!" :
-            "Draw!";
+        winnerText.text = winner.name + "'s Victory!";
+       
     }
 }

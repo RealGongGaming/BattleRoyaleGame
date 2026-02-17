@@ -7,7 +7,7 @@ public class CardUIManager : MonoBehaviour
     [SerializeField] private GameObject cardPanel;
     [SerializeField] private Transform cardContainer;
     [SerializeField] private GameObject cardUIPrefab;
-    public TMPro.TextMeshProUGUI turnText; // Now being used!
+    public TMPro.TextMeshProUGUI turnText; 
 
     [SerializeField] private CardManager cardManager;
 
@@ -32,7 +32,6 @@ public class CardUIManager : MonoBehaviour
             turnText.text = $"{playerName}'s Turn to Pick!";
         }
 
-        // Spawn buttons for the current pool of cards
         foreach (Card card in cards)
         {
             GameObject cardObj = Instantiate(cardUIPrefab, cardContainer);
@@ -44,7 +43,7 @@ public class CardUIManager : MonoBehaviour
             }
         }
 
-        // Pause the game while picking
+    
         Time.timeScale = 0f;
     }
 
@@ -54,11 +53,10 @@ public class CardUIManager : MonoBehaviour
 
         if (cardIndex >= 0)
         {
-            // 1. Tell CardManager to apply the stats and move to the next person
+       
             cardManager.ApplyCard(cardIndex);
 
-            // 2. We ONLY resume time and hide the panel if the queue is actually empty.
-            // CardManager will trigger the scene reload, so we don't call StartNextRound here!
+        
             Time.timeScale = 1f;
         }
     }
