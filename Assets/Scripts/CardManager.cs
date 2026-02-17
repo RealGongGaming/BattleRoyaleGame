@@ -4,82 +4,97 @@ using System.Linq;
 
 public class CardManager : MonoBehaviour
 {
-    [SerializeField] private PlayerStats playerStats;
     [SerializeField] private CardGenerator cardGenerator;
-    [SerializeField] private int numberOfCardsToGenerate ;
 
     private List<Card> currentCards = new List<Card>();
+    private Queue<string> draftingQueue = new Queue<string>();
+    private string currentPickerID;
 
     void Start()
     {
         if (cardGenerator == null)
             cardGenerator = GetComponent<CardGenerator>();
-
-        if (playerStats == null)
-            playerStats = FindFirstObjectByType<PlayerStats>();
     }
 
-    public List<Card> GenerateCardChoices()
+    public void StartDrafting(List<string> order)
     {
-        int activePlayers = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None).Count();
+       
+        draftingQueue = new Queue<string>(order);
 
-        int cardsToGenerate = activePlayers + 2;
-
+       
+        int cardsToGenerate = order.Count + 1;
         currentCards = cardGenerator.GenerateMultipleCards(cardsToGenerate);
 
-        return currentCards;
+
+        MoveToNextPicker();
+    }
+
+    private void MoveToNextPicker()
+    {
+        if (draftingQueue.Count > 0)
+        {
+           
+            currentPickerID = draftingQueue.Dequeue();
+
+     
+            CardUIManager ui = FindFirstObjectByType<CardUIManager>();
+            if (ui != null)
+            {
+                ui.DisplayCards(currentCards, currentPickerID);
+            }
+        }
+        else
+        {
+  
+            MatchManager.instance.StartNextRound();
+        }
     }
 
     public void ApplyCard(int cardIndex)
     {
-        if (cardIndex < 0 || cardIndex >= currentCards.Count)
-        {
-            Debug.LogError("Invalid card index!");
-            return;
-        }
+        if (cardIndex < 0 || cardIndex >= currentCards.Count) return;
 
         Card selectedCard = currentCards[cardIndex];
-        ApplyCardToPlayer(selectedCard);
 
-        currentCards.Clear();
-    }
+        PlayerData data = System.Array.Find(DataManager.instance.players, p => p.playerID == currentPickerID);
 
-    private void ApplyCardToPlayer(Card card)
-    {
-        if (playerStats == null)
+        if (data != null)
         {
-            Debug.LogError("PlayerStats not assigned!");
-            return;
+            ApplyStatsToData(data, selectedCard);
         }
 
+
+        currentCards.RemoveAt(cardIndex);
+
+
+        MoveToNextPicker();
+    }
+
+    private void ApplyStatsToData(PlayerData data, Card card)
+    {
         switch (card.statType)
         {
             case StatType.HPMultiplier:
-                playerStats.hpMultiplier *= card.statValue;
+                data.hpMultiplier *= card.statValue;
                 break;
             case StatType.MoveSpeedMultiplier:
-                playerStats.moveSpeedMultiplier *= card.statValue;
+                data.moveSpeedMultiplier *= card.statValue;
                 break;
             case StatType.AttackMultiplier:
-                playerStats.attackMultiplier *= card.statValue;
+                data.attackMultiplier *= card.statValue;
                 break;
             case StatType.AttackSpeedMultiplier:
-                playerStats.attackSpeedMultiplier *= card.statValue;
+                data.attackSpeedMultiplier *= card.statValue;
                 break;
             case StatType.AttackRangeMultiplier:
-                playerStats.attackRangeMultiplier *= card.statValue;
+                data.attackRangeMultiplier *= card.statValue;
                 break;
             case StatType.KnockbackMultiplier:
-                playerStats.knockbackMultiplier *= card.statValue;
+                data.knockbackMultiplier *= card.statValue;
                 break;
             case StatType.KnockbackResistBonus:
-                playerStats.knockbackResistBonus += card.statValue;
+                data.knockbackResistBonus += card.statValue;
                 break;
         }
-
-        playerStats.RecalculateStats();
-        Debug.Log($"Applied card: {card.GetCardDescription()}");
     }
-
-
 }

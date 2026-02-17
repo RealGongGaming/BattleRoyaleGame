@@ -8,6 +8,15 @@ public class PlayerData
     public string playerID;
     public bool isReady;
     public WeaponType weaponType;
+    public int roundWins;
+
+    public float hpMultiplier = 1f;
+    public float moveSpeedMultiplier = 1f;
+    public float attackMultiplier = 1f;
+    public float attackSpeedMultiplier = 1f;
+    public float attackRangeMultiplier = 1f;
+    public float knockbackMultiplier = 1f;
+    public float knockbackResistBonus = 0f;
 }
 
 public class DataManager : MonoBehaviour
