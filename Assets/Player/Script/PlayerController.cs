@@ -106,17 +106,18 @@ public class PlayerController : MonoBehaviour
             animator.SetFloat("AttackSpeed", stats.baseAttackLength * finalSpeed);
             animator.SetTrigger("Attack");
 
-            StartCoroutine(AttackCooldown(finalSpeed));
             StartCoroutine(HitboxWindow(finalSpeed));
         }
     }
 
     IEnumerator HitboxWindow(float finalSpeed)
     {
+        canAttack = false;
         isAttacking = true;
+        animator.SetBool("IsAttacking", true);
 
-        float startDelay = (stats.baseAttackLength / 4f) / finalSpeed;
-        float activeTime = (stats.baseAttackLength / 4f) / finalSpeed;
+        float startDelay = (stats.baseAttackLength * 0.1f) / finalSpeed;
+        float activeTime = (stats.baseAttackLength * 0.3f) / finalSpeed;
 
         yield return new WaitForSeconds(startDelay);
         eventReceiver.EnableHitbox();
@@ -125,12 +126,9 @@ public class PlayerController : MonoBehaviour
         eventReceiver.DisableHitbox();
 
         isAttacking = false;
-    }
 
-    IEnumerator AttackCooldown(float finalSpeed)
-    {
-        canAttack = false;
-        yield return new WaitForSeconds((1f / finalSpeed) * 0.7f);
+        yield return new WaitForSeconds((stats.baseAttackLength * 0.35f) / finalSpeed);
+        animator.SetBool("IsAttacking", false);
         canAttack = true;
     }
 
