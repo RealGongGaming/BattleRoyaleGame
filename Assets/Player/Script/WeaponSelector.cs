@@ -72,7 +72,7 @@ public class WeaponSelector : MonoBehaviour
 
     void OnValidate()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying && gameObject.activeInHierarchy)
         {
             StartCoroutine(DelayedApplyWeapon());
         }

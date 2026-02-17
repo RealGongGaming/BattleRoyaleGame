@@ -11,6 +11,7 @@ public class LobbyController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         Vector2 input = context.ReadValue<Vector2>();
 
         if (context.canceled || (input.x < 0.6f && input.x > -0.6f))
@@ -81,6 +82,7 @@ public class LobbyController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         if (!context.performed) return;
 
         isReady = !isReady;
@@ -96,5 +98,14 @@ public class LobbyController : MonoBehaviour
         // UI feedback
         ReadyText.text = isReady ? "Ready" : "Not Ready";
         ReadyText.color = isReady ? Color.green : Color.red;
+    }
+
+    void OnDisable()
+    {
+        var input = GetComponent<PlayerInput>();
+        if (input != null)
+        {
+            input.DeactivateInput();
+        }
     }
 }

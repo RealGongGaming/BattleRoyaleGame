@@ -238,6 +238,10 @@ MonoBehaviour:
   rareBackground: {fileID: 21300000, guid: fc5c2fa6ab5cdea4dbdf22e750564984, type: 3}
   epicBackground: {fileID: 21300000, guid: 4d989ba425af6ab43bc2aeca570d8b31, type: 3}
   legendaryBackground: {fileID: 21300000, guid: 9185c332840a39c4d942cb8da223d279, type: 3}
+  hoverDuration: 0.12
+  hoverXOffset: -15
+  hoverYOffset: 80
+  hoverRotation: 5
 --- !u!1 &5436634831888444501
 GameObject:
   m_ObjectHideFlags: 0

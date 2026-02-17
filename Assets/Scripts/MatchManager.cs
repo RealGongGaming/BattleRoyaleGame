@@ -134,6 +134,20 @@ public class MatchManager : MonoBehaviour
 
     public void StartNextRound()
     {
+        PlayerStats[] allPlayers = FindObjectsByType<PlayerStats>(FindObjectsSortMode.None);
+        foreach (var p in allPlayers)
+        {
+            if (p == null) continue;
+
+            var input = p.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+            if (input != null)
+            {
+                input.DeactivateInput();
+                input.enabled = false;
+            }
+
+            p.gameObject.SetActive(false);
+        }
 
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

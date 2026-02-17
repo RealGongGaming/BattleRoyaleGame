@@ -21,6 +21,14 @@ public class PlayerSpawner : MonoBehaviour
 
             if (data == null || !data.isReady)
             {
+                UnityEngine.InputSystem.PlayerInput input = player.GetComponent<UnityEngine.InputSystem.PlayerInput>();
+                if (input != null)
+                {
+                    input.DeactivateInput();
+                    input.enabled = false;
+                }
+
+                player.gameObject.SetActive(false);
                 Destroy(player.gameObject);
                 continue;
             }
