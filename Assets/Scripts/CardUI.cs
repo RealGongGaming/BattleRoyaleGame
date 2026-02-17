@@ -20,13 +20,13 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Sprite legendaryBackground;
 
     [Header("Hover Settings")]
-    [SerializeField] private float hoverScale = 1.2f;
     [SerializeField] private float hoverDuration = 0.12f;
+    [SerializeField] private float hoverXOffset = 0f;
     [SerializeField] private float hoverYOffset = 40f;
+    [SerializeField] private float hoverRotation = 5f; // Tilt left on hover
 
     private Card card;
     private System.Action<CardUI> onCardSelected;
-    private Vector3 originalScale;
     private Coroutine hoverCoroutine;
     private bool isReady = false;
     private bool isHovered = false;
@@ -37,7 +37,6 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         this.card = card;
         this.onCardSelected = onSelected;
-        originalScale = transform.localScale;
 
         handLayout = GetComponentInParent<CardHandLayout>();
 
@@ -85,7 +84,7 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isHovered = true;
 
         if (hoverCoroutine != null) StopCoroutine(hoverCoroutine);
-        hoverCoroutine = StartCoroutine(AnimateHover(originalScale * hoverScale, hoverYOffset, 0f));
+        hoverCoroutine = StartCoroutine(AnimateHover(hoverXOffset, hoverYOffset, hoverRotation));
 
         if (handLayout != null)
             handLayout.OnCardHovered(this);
@@ -101,35 +100,36 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         isHovered = false;
 
         if (hoverCoroutine != null) StopCoroutine(hoverCoroutine);
-        // Y and rotation will be restored by CardHandLayout, we just handle scale
-        hoverCoroutine = StartCoroutine(AnimateScaleOnly(originalScale));
+        hoverCoroutine = null;
 
         if (handLayout != null)
             handLayout.OnCardUnhovered(this);
     }
 
     /// <summary>
-    /// On hover: scale up, move Y up from current arc position, straighten rotation to 0.
-    /// CardHandLayout handles X position and neighbor spreading.
+    /// Handles Y offset and rotation only. X position managed by CardHandLayout.
     /// </summary>
-    private IEnumerator AnimateHover(Vector3 targetScale, float yOffset, float targetRotation)
+    private IEnumerator AnimateHover(float targetX, float targetY, float addRotation)
     {
         RectTransform rt = GetComponent<RectTransform>();
+        float baseX = rt.anchoredPosition.x;
+        float baseRot = WrapAngle(rt.localEulerAngles.z);
+        float finalRot = baseRot + addRotation;
 
         while (rt != null &&
-              (Mathf.Abs(transform.localScale.x - targetScale.x) > 0.01f ||
-               Mathf.Abs(rt.anchoredPosition.y - yOffset) > 0.5f))
+              (Mathf.Abs(rt.anchoredPosition.y - targetY) > 0.5f ||
+               Mathf.Abs(rt.anchoredPosition.x - (baseX + targetX)) > 0.5f ||
+               Mathf.Abs(WrapAngle(rt.localEulerAngles.z) - finalRot) > 0.3f))
         {
             float t = Time.unscaledDeltaTime / hoverDuration;
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, t);
 
-            // Move Y up and straighten rotation
             Vector2 pos = rt.anchoredPosition;
-            pos.y = Mathf.Lerp(pos.y, yOffset, t);
+            pos.x = Mathf.Lerp(pos.x, baseX + targetX, t);
+            pos.y = Mathf.Lerp(pos.y, targetY, t);
             rt.anchoredPosition = pos;
 
             float currentZ = WrapAngle(rt.localEulerAngles.z);
-            float newZ = Mathf.Lerp(currentZ, targetRotation, t);
+            float newZ = Mathf.Lerp(currentZ, finalRot, t);
             rt.localRotation = Quaternion.Euler(0f, 0f, newZ);
 
             yield return null;
@@ -137,23 +137,9 @@ public class CardUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (rt != null)
         {
-            transform.localScale = targetScale;
-            Vector2 finalPos = rt.anchoredPosition;
-            finalPos.y = yOffset;
-            rt.anchoredPosition = finalPos;
-            rt.localRotation = Quaternion.Euler(0f, 0f, targetRotation);
+            rt.anchoredPosition = new Vector2(baseX + targetX, targetY);
+            rt.localRotation = Quaternion.Euler(0f, 0f, finalRot);
         }
-    }
-
-    private IEnumerator AnimateScaleOnly(Vector3 targetScale)
-    {
-        while (Mathf.Abs(transform.localScale.x - targetScale.x) > 0.01f)
-        {
-            float t = Time.unscaledDeltaTime / hoverDuration;
-            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, t);
-            yield return null;
-        }
-        transform.localScale = targetScale;
     }
 
     private float WrapAngle(float angle)

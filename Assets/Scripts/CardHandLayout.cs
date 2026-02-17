@@ -91,9 +91,6 @@ public class CardHandLayout : MonoBehaviour
         int hoveredIndex = cards.IndexOf(hoveredCard);
         if (hoveredIndex < 0) return;
 
-        // Bring hovered card to front
-        hoveredCard.transform.SetAsLastSibling();
-
         for (int i = 0; i < cards.Count; i++)
         {
             if (i == hoveredIndex) continue;
@@ -117,12 +114,6 @@ public class CardHandLayout : MonoBehaviour
 
     public void OnCardUnhovered(CardUI unhoveredCard)
     {
-        // Restore sibling order
-        for (int i = 0; i < cards.Count; i++)
-        {
-            cards[i].transform.SetSiblingIndex(i);
-        }
-
         // Return all cards to base positions
         for (int i = 0; i < cards.Count; i++)
         {
