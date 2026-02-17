@@ -28,7 +28,8 @@ public class UIManager : MonoBehaviour
         foreach (var tag in tags)
         {
             Debug.Log($"{tag.gameObject}");
-            tag.gameObject.SetActive(false);
+            tag.visibleAlpha = 0;
+            tag.occludedAlpha = 0;
         }
 
         roundEndPanel.SetActive(true);
