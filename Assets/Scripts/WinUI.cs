@@ -21,6 +21,16 @@ public class UIManager : MonoBehaviour
                              Dictionary<string, int> scores)
     {
         Debug.Log("ShowingRoundEnd");
+
+        var tags = FindObjectsByType<PlayerNameTag>(FindObjectsSortMode.None);
+
+
+        foreach (var tag in tags)
+        {
+            Debug.Log($"{tag.gameObject}");
+            tag.gameObject.SetActive(false);
+        }
+
         roundEndPanel.SetActive(true);
 
 
