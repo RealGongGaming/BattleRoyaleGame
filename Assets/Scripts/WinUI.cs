@@ -49,12 +49,14 @@ public class UIManager : MonoBehaviour
             roundEndPanel.SetActive(true);
             backToTitleButton.SetActive(true);
             VictoryPlayer.transform.localPosition = new Vector3(0, 40, -460);
+            AudioManager.instance.PlaySFX(AudioManager.instance.overall_victory);
         }
         else
         {
             roundEndPanel.SetActive(true);
             winnerText.text = winner.name + "'s Round Victory!";
             yield return null;
+            AudioManager.instance.PlaySFX(AudioManager.instance.round_victory);
         }
         scoreBoard.text = string.Join("\n", scores
             .OrderByDescending(kvp => kvp.Value)

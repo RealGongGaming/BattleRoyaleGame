@@ -13,6 +13,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip lobbyBGM;
     public AudioClip parry;
     public AudioClip stun;
+    public AudioClip overall_victory;
+    public AudioClip round_victory;
 
     private void Awake()
     {

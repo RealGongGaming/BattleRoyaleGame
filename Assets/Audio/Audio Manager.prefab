@@ -52,6 +52,8 @@ MonoBehaviour:
   lobbyBGM: {fileID: 8300000, guid: 0103a6553b549c3428e6c92984b235d7, type: 3}
   parry: {fileID: 8300000, guid: ffb159a21c8a04135a5616979c828fab, type: 3}
   stun: {fileID: 8300000, guid: d8d04c6f80a1140db85ede568dab1f51, type: 3}
+  overall_victory: {fileID: 8300000, guid: 5d8ca80904524ce4a82929ecc74badb9, type: 3}
+  round_victory: {fileID: 8300000, guid: 7055365f26f4d254f8f3459d91415c28, type: 3}
 --- !u!1 &5359589524807076555
 GameObject:
   m_ObjectHideFlags: 0
