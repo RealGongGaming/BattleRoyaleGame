@@ -85,9 +85,9 @@ public class MatchManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         if (UIManager.instance != null)
-            UIManager.instance.ShowEndRound(winner, playerWins);
+            StartCoroutine(UIManager.instance.ShowEndRound(winner, playerWins));
 
-     
+
         yield return new WaitForSeconds(2f);
 
        
