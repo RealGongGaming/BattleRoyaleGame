@@ -1560,10 +1560,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.37421727
-  m_Height: 1.8730092
+  m_Radius: 0.51560116
+  m_Height: 2.4695246
   m_Direction: 1
-  m_Center: {x: 0.0021255016, y: 0.93457747, z: 0}
+  m_Center: {x: 0.0021255016, y: 1.2328352, z: 0.021751404}
 --- !u!114 &3008744376914336334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25373,6 +25373,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4012509156291358335}
     m_Modifications:
+    - target: {fileID: 227865290725355917, guid: 3ca3297e814d77b42a6dbbf41be78207, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1482328765890570544, guid: 3ca3297e814d77b42a6dbbf41be78207, type: 3}
       propertyPath: m_Name
       value: vfx_Slash_Hammer
@@ -25887,10 +25891,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.16788515
-  m_Height: 1.4998024
+  m_Radius: 0.28627557
+  m_Height: 1.6456319
   m_Direction: 1
-  m_Center: {x: -0.00046525896, y: 0.60121477, z: 0.00047053}
+  m_Center: {x: -0.0030295937, y: 0.67412394, z: 0.0075798957}
 --- !u!1001 &7967031477470630401
 PrefabInstance:
   m_ObjectHideFlags: 0
