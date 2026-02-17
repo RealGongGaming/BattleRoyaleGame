@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         move = context.ReadValue<Vector2>();
     }
 
@@ -99,6 +100,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         if (context.performed && canAttack && !isDodging && !isParrying && !isStunned && !stats.IsDead())
         {
             float finalSpeed = stats.attackSpeed;
@@ -136,6 +138,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         if (context.performed && canDodge && !isDodging && !isStunned && canUseDodge && !stats.IsDead())
         {
             StartCoroutine(DodgeRoutine());
@@ -183,6 +186,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnParry(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         if (context.performed && canParry && !isDodging && !isParrying && !isAttacking && !isStunned && canUseParry && !stats.IsDead())
         {
             parryCoroutine = StartCoroutine(ParryRoutine());
@@ -273,6 +277,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (this == null || !gameObject.activeInHierarchy) return;
         if (context.performed && isGrounded && !isStunned && !stats.IsDead())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
@@ -285,5 +290,17 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = true;
         animator.SetBool("IsJumping", false);
+    }
+
+    void OnDisable()
+    {
+        move = Vector2.zero;
+        StopAllCoroutines();
+
+        var input = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+        if (input != null)
+        {
+            input.DeactivateInput();
+        }
     }
 }

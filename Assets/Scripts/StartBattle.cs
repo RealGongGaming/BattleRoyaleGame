@@ -23,8 +23,19 @@ public class StartBattle : MonoBehaviour
     }
     public void Play(InputAction.CallbackContext context)
     {
+        if (!context.performed) return;
         if (DataManager.instance.ReadyCount() >= 2)
         {
+            PlayerInput[] allInputs = FindObjectsByType<PlayerInput>(FindObjectsSortMode.None);
+            foreach (var input in allInputs)
+            {
+                if (input != null)
+                {
+                    input.DeactivateInput();
+                    input.enabled = false;
+                }
+            }
+
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             AudioManager.instance.PlayBGM(AudioManager.instance.gameBGM);
         }
